@@ -10,3 +10,8 @@ export async function GET() {
   const names = await GuestRepository.getAvailableNames();
   return new Response(JSON.stringify(names));
 }
+
+export async function DELETE(request: Request) {
+  throw new Error("Not implemented")
+  return new Response("Name deleted successfully");
+}

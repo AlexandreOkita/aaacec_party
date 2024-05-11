@@ -1,13 +1,10 @@
-import { firestore } from "@/lib/data/firestore";
-
-export async function GET(request: Request) {
-  return new Response("GET request received");
-}
+import { AuthRepository } from "../../../../repositories/auth_repository";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  await firestore
-    .doc(`users/${body.username}`)
-    .set({ username: body.username, password: body.password });
-  return new Response(`User (${body.username}) created successfully`);
+  const username = body.username;
+  const password = body.password;
+
+  const token = await AuthRepository.login(username, password);
+  return Response.json({ token }, { status: 200 });
 }

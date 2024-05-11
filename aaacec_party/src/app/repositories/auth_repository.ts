@@ -1,0 +1,27 @@
+import { firestore } from "../../lib/data/firestore";
+import { JWTSigner } from "../../lib/jwt/jwt_signer";
+
+export class AuthRepository {
+  static async login(username: string, password: string) {
+    const user = await firestore.doc(`users/${username}`).get();
+    if (user.exists) {
+      const data = user.data()!;
+      if (data.password === password) {
+        return JWTSigner.sign({ username: data.username, role: data.role });
+      }
+      throw new Error("Password is incorrect");
+    }
+    throw new Error("Username does not exists");
+  }
+
+  static async register(username: string, password: string) {
+    const user = await firestore.doc(`users/${username}`).get();
+    if (user.exists) {
+      throw new Error("Username already exists");
+    }
+    await firestore
+      .doc(`users/${username}`)
+      .set({ username, password, role: "worker" });
+    return JWTSigner.sign({ username, role: "worker" });
+  }
+}

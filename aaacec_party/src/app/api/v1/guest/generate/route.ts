@@ -1,6 +1,15 @@
+import { Authorize } from "../../../../../lib/route_method";
+import { AAACECRole } from "../../../../domain/aaacec_roles";
 import { GuestRepository } from "../../../../repositories/guest_repository";
 
-export async function POST() {
-  const guestName = await GuestRepository.generateGuest();
-  return new Response(JSON.stringify({name: guestName}));
+class GenerateGuestController {
+  @Authorize([AAACECRole.ADMIN, AAACECRole.CONCIERGE])
+  static async POST(_request: Request) {
+    const guestName = await GuestRepository.generateGuest();
+    return Response.json({ name: guestName }, { status: 200 });
+  }
+}
+
+export async function POST(request: Request) {
+  return GenerateGuestController.POST(request);
 }

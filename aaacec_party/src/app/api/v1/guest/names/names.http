@@ -1,6 +1,7 @@
 GET /api/v1/guest/names HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiOiJ3b3JrZXIiLCJpYXQiOjE3MTU1MDkyNjQsImV4cCI6MTcxNTUxMTA2NH0.N1nxETX2j1cNL2qX7fhHh-ar3sMTMNE1dd_gENJZL6k
 
 ###
 

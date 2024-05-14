@@ -1,9 +1,8 @@
-import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { JWTSigner } from "./lib/jwt/jwt_signer";
 
-export async function middleware(request: NextRequest, event: NextFetchEvent) {
-  if (!request.url.includes("/api/v1/auth")) {
-    console.log(request.url);
+export async function middleware(request: NextRequest) {
+  if (!request.nextUrl.pathname.startsWith("/api/v1/auth")) {
     const auth_token = request.headers.get("Authorization");
     if (!auth_token) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });

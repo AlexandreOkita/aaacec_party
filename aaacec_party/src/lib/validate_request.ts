@@ -1,12 +1,11 @@
 import { ZodObject, ZodError } from "zod";
 import { APIError } from "./error/api_error";
 
-export function validateRequest<T>(
-  request: Request,
+export async function validateRequest<T>(
+  body: any,
   schema: ZodObject<any>,
   fromObject: (obj: any) => T
-): T {
-  const body = request.body;
+): Promise<T> {
   try {
     return fromObject(schema.parse(body));
   } catch (error) {

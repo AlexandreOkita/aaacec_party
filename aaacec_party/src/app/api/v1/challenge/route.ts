@@ -1,15 +1,19 @@
+import { NextRequest } from "next/server";
 import { APIError } from "../../../../lib/error/api_error";
+import { Authorize } from "../../../../lib/route_method";
 import { validateRequest } from "../../../../lib/validate_request";
+import { AAACECRole } from "../../../domain/aaacec_roles";
 import { Challenge } from "../../../domain/challenge";
 import { ChallengeRepository } from "../../../repositories/challenge_repository";
 import { NewChallengeDTO } from "./challenge.dto";
 
 class ChallengeController {
-  // @Authorize([AAACECRole.ADMIN])
+  @Authorize([AAACECRole.ADMIN])
   static async POST(req: Request) {
+    const body = await req.json();
     try {
-      const dto = validateRequest(
-        req,
+      const dto = await validateRequest(
+        body,
         NewChallengeDTO.schema,
         NewChallengeDTO.fromObject
       );
@@ -23,7 +27,26 @@ class ChallengeController {
           dto.partyId
         )
       );
-      return Response.json({ message: "Challenge POST" }, { status: 200 });
+      return Response.json(
+        { message: "Challenge added successfully" },
+        { status: 200 }
+      );
+    } catch (error) {
+      if (error instanceof APIError) {
+        return error.failMessage();
+      }
+    }
+  }
+
+  @Authorize([AAACECRole.ADMIN, AAACECRole.WORKER])
+  static async GET(req: NextRequest) {
+    try {
+      if (req.nextUrl.searchParams.has("partyId")) {
+        const partyId = req.nextUrl.searchParams.get("partyId");
+        const challenges = await ChallengeRepository.getChallenges(partyId!);
+        return Response.json({ challenges }, { status: 200 });
+      }
+      throw new APIError("Please provide a partyId as a query parameter.", 400);
     } catch (error) {
       if (error instanceof APIError) {
         return error.failMessage();
@@ -34,4 +57,8 @@ class ChallengeController {
 
 export async function POST(request: Request) {
   return await ChallengeController.POST(request);
+}
+
+export async function GET(request: NextRequest) {
+  return await ChallengeController.GET(request);
 }

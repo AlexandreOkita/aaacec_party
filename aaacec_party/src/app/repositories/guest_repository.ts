@@ -55,8 +55,6 @@ export class GuestRepository {
       }
     }
 
-    console.log(nameCount);
-
     this._addGuest(leastUsedName, minCount);
     return `${leastUsedName}-${minCount}`;
   }

@@ -1,3 +1,0 @@
-POST /api/v1/guest/generate HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json

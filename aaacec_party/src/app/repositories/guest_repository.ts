@@ -1,7 +1,7 @@
 import { firestore } from "../../lib/data/firestore";
 
 export class GuestRepository {
-  static async setAvailableNames(names: string[]) {
+  static async setAvailableNames(names: { name: string; imgUrl: string }[]) {
     firestore.doc("guest/names").set({ names });
   }
 
@@ -26,7 +26,9 @@ export class GuestRepository {
     // Caso o nome já exista, incrementa o número até encontrar um nome disponível
     // O número inicial é 0
 
-    const names = doc.data()!.names;
+    const names = (doc.data()!.names as { name: string; imgUrl: string }[]).map(
+      (e) => e.name
+    );
 
     const snapshot = await firestore.collection("guest/list/guests").get();
     const currentGuests = snapshot.docs.map((doc) => doc.id);
@@ -57,6 +59,13 @@ export class GuestRepository {
 
     this._addGuest(leastUsedName, minCount);
     return `${leastUsedName}-${minCount}`;
+  }
+
+  static async clearGuests() {
+    const snapshot = await firestore.collection("guest/list/guests").get();
+    for (const doc of snapshot.docs) {
+      await doc.ref.delete();
+    }
   }
 
   private static async _addGuest(name: string, count: number) {

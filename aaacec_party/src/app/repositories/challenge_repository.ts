@@ -1,4 +1,5 @@
 import { firestore } from "../../lib/data/firestore";
+import { DataError } from "../../lib/error/data_error";
 import { Challenge } from "../domain/challenge";
 
 export class ChallengeRepository {
@@ -25,6 +26,23 @@ export class ChallengeRepository {
         data.numericId,
         data.partyId
       );
+    });
+  }
+
+  static async scoreGuest(guestId: string) {
+    const guest = await firestore.doc(`guest/list/guests/${guestId}`).get();
+    if (!guest.exists) {
+      throw new DataError("GuestId not found", "guests");
+    }
+    const data = guest.data()!;
+
+    if (!data.score) {
+      data.score = 0;
+    }
+
+    await firestore.doc(`guest/list/guests/${guestId}`).set({
+      ...data,
+      score: data.score + 1,
     });
   }
 }

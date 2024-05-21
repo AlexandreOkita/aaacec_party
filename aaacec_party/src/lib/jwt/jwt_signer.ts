@@ -3,8 +3,7 @@ import { SignJWT, jwtVerify } from "jose";
 
 const jwtConfig = {
   secret: new TextEncoder().encode(process.env.JWT_SECRET),
-}
-
+};
 
 export class JWTSigner {
   static async sign(payload: any): Promise<string> {

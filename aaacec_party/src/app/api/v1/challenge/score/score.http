@@ -4,6 +4,6 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNTg4MzYxNiwiZXhwIjoxNzE3MDkzMjE2fQ.Q69mN4crndK5jvR744sOz9jLntcLGxGlcWLBLsUZI70
 
 {
-  "name": "milho",
-  "number": 0
+  "name": "pipoca",
+  "number": 2
 }

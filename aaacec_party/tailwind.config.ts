@@ -16,6 +16,9 @@ const config = withMT({
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      height: {
+        "screen-with-navbar": "calc(100vh - 56px)",
+      },
     },
   },
   plugins: [],

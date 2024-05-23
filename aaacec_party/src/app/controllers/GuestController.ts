@@ -28,4 +28,29 @@ export default class GuestController {
 
     return guestData;
   }
+
+  static async scoreGuest(
+    token: string,
+    login: string,
+    id: number
+  ): Promise<boolean> {
+    try {
+      const response: AxiosResponse = await axios.post(
+        "/api/v1/challenge/score/",
+        {
+          name: login,
+          number: id,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+    } catch (e) {
+      return false;
+    }
+
+    return true;
+  }
 }

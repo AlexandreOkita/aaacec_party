@@ -19,7 +19,10 @@ export default function ByPassLogin(WrappedComponent: () => JSX.Element) {
             router.replace("/concierge");
           }
           if (tokenInformation.role === AAACECRole.ADMIN) {
-            router.replace("/concierge");
+            router.replace("/challenge");
+          }
+          if (tokenInformation.role === AAACECRole.WORKER) {
+            router.replace("/challenge");
           }
         } catch (error) {
           setLoading(false);

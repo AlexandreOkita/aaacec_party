@@ -1,0 +1,17 @@
+POST /api/v1/boom HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNTg4MzYxNiwiZXhwIjoxNzE3MDkzMjE2fQ.Q69mN4crndK5jvR744sOz9jLntcLGxGlcWLBLsUZI70
+
+{
+  "imageURL": "https://www.raragente.com.br/imagem/noticia/1000/1000/1592429225_71001.jpg",
+  "name": "bolo de milho",
+  "partyId": "sao_login"
+}
+
+###
+
+GET /api/v1/boom HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNTg4MzYxNiwiZXhwIjoxNzE3MDkzMjE2fQ.Q69mN4crndK5jvR744sOz9jLntcLGxGlcWLBLsUZI70

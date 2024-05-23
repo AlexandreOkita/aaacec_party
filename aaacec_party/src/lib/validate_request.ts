@@ -12,6 +12,7 @@ export async function validateRequest<T>(
     if (error instanceof ZodError) {
       throw new APIError(error.errors[0].message, 400);
     }
+    console.log(error);
     throw new APIError("Fail to parse route schema. Unkown reason.", 400);
   }
 }

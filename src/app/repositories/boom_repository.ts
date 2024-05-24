@@ -30,8 +30,8 @@ export class BoomRepository {
       boomId: boomSchedule.boomId,
       partyId: boomSchedule.partyId,
       name: boomSchedule.name,
-      startDate: boomSchedule.startDate,
-      endDate: boomSchedule.endDate,
+      startDate: moment(boomSchedule.startDate),
+      endDate: moment(boomSchedule.endDate),
     });
   }
 
@@ -49,11 +49,15 @@ export class BoomRepository {
         data.partyId,
         data.startInSeconds,
         data.duration,
-        data.startDate,
-        data.endDate
+        this._firestoreDateToTimezone(data.startDate),
+        this._firestoreDateToTimezone(data.endDate)
       );
     });
 
-    return schedules.sort((a, b) => a.startDate.diff(b.startDate));
+    return schedules.sort((a, b) => moment(a.startDate).diff(moment(b.startDate)));
+  }
+
+  static _firestoreDateToTimezone(date: any) {
+    return moment(date.toDate()).tz("America/Sao_Paulo");
   }
 }

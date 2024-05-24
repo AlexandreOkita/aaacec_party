@@ -2,27 +2,29 @@ import moment, { Moment } from "moment-timezone";
 import { BoomScheduleDTO } from "../api/v1/boom/schedule/boom_schedule.dto";
 
 export class BoomSchedule {
-  public startDate: Moment;
-  public endDate: Moment;
+  public startDate: string;
+  public endDate: string;
 
   constructor(
     public readonly name: string,
     public readonly partyId: string,
     public readonly startInSeconds: number,
     public readonly duration: number,
-    startDate?: string,
-    endDate?: string
+    startDate?: Moment,
+    endDate?: Moment
   ) {
     if (startDate && endDate) {
-      this.startDate = moment(startDate);
-      this.endDate = moment(endDate);
+      this.startDate = startDate.format("YYYY-MM-DDTHH:mm:ss");
+      this.endDate = endDate.format("YYYY-MM-DDTHH:mm:ss");
     } else {
       this.startDate = moment()
         .tz("America/Sao_Paulo")
         .add(this.startInSeconds, "seconds")
+        .format("YYYY-MM-DDTHH:mm:ss");
       this.endDate = moment()
         .tz("America/Sao_Paulo")
         .add(this.startInSeconds + this.duration, "seconds")
+        .format("YYYY-MM-DDTHH:mm:ss");
     }
   }
 

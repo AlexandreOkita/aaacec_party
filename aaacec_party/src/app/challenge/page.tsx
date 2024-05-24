@@ -10,10 +10,16 @@ import GuestController from "../controllers/GuestController";
 import DefaultLoginsController from "../controllers/DefaultLoginsController";
 import LoginsPage from "./LoginsPage";
 import GetChallengePage from "./GetChallengePage";
+import ChallengesController from "../controllers/ChallengesController";
 
 export interface DefaultLogin {
   imgUrl: string;
   login: string;
+}
+
+export interface Challenge {
+  numericId: number;
+  description: string;
 }
 
 export enum Pages {
@@ -25,7 +31,9 @@ const Challenge = () => {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [defaultLogins, setDefaultLogins] = useState<DefaultLogin[]>([]);
+  const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [currentPage, setCurrentPage] = useState<Pages>(Pages.LOGINS);
+
   const getLogins = async () => {
     const token = Cookies.get("token") || "";
     setLoading(true);
@@ -39,15 +47,28 @@ const Challenge = () => {
     setLoading(false);
   };
 
+  const getChallenges = async () => {
+    const token = Cookies.get("token") || "";
+    setLoading(true);
+    const challengesResponse = await ChallengesController.getChallenges(token);
+    if (!challengesResponse?.length) {
+      setError("Erro ao obter logins");
+    } else {
+      setChallenges(challengesResponse);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     getLogins();
+    getChallenges();
   }, []);
 
   return (
     <>
       <NavBar />
       <div className="flex items-center h-screen flex-col justify-between mt-[-56px]">
-        <div className="mt-[56px]">
+        <div className="mt-[56px] w-full">
           {loading ? (
             <div className="pt-10 ">
               <Spinner />
@@ -61,7 +82,10 @@ const Challenge = () => {
                 />
               )}
               {currentPage === Pages.GET_CHALLENGE && (
-                <GetChallengePage setPage={setCurrentPage} />
+                <GetChallengePage
+                  setPage={setCurrentPage}
+                  challenges={challenges}
+                />
               )}
             </>
           )}

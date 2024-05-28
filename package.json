@@ -22,6 +22,7 @@
     "react": "^18",
     "react-dom": "^18",
     "request": "^2.88.2",
+    "usehooks-ts": "^3.1.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

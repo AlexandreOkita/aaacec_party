@@ -16,6 +16,12 @@ const config = withMT({
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        red: "#FFDCDC",
+        blue: "#DCE4FF",
+        green: "#DCFFE2",
+        yellow: "#FFF5DC",
+      },
       height: {
         "screen-with-navbar": "calc(100vh - 56px)",
       },

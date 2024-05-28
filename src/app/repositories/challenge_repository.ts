@@ -48,16 +48,24 @@ export class ChallengeRepository {
 
   static async getAllScores() {
     const guests = await firestore.collection("guest/list/guests").get();
-    return guests.docs.map((doc) => {
-      const data = doc.data();
-      if (!data.score) {
-        data.score = 0;
-      }
-      return {
+    return guests.docs
+      .map((doc) => {
+        const data = doc.data();
+        if (!data.score) {
+          data.score = 0;
+        }
+        return {
+          id: doc.id,
+          name: data.name,
+          score: data.score,
+        };
+      })
+      .sort((a, b) => b.score - a.score)
+      .map((doc, listIndex: number) => ({
+        position: listIndex + 1,
         id: doc.id,
-        name: data.name,
-        score: data.score,
-      };
-    }).sort((a, b) => b.score - a.score);
+        name: doc.name,
+        score: doc.score,
+      }));
   }
 }

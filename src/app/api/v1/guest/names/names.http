@@ -15,6 +15,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiO
     {"name": "milho", "imgUrl": "http://3.bp.blogspot.com/-sOv5Fo_pUPY/T3-NK4EAMmI/AAAAAAAAAa0/H-JSkcDdjUg/s1600/milho.jpg"},
     {"name": "pipoca", "imgUrl": "https://static.saudedicas.com.br/2013/08/pipoca-os-surpreendentes-beneficios-da-pipoca-15113-21883.jpg"},
     {"name": "pamonha", "imgUrl": "https://receitasnotadez.com.br/wp-content/uploads/2020/04/umami-receita-pamonha-salgada-yelo34-1000x563-1.jpg"},
-    {"name": "cachorro_quente", "imgUrl": "https://img.freepik.com/fotos-gratis/cachorro-quente-classico-com-ketchup-e-molho-de-mostarda-isolado-em-fundo-branco_123827-29747.jpg"},
+    {"name": "cachorro_quente", "imgUrl": "https://img.freepik.com/fotos-gratis/cachorro-quente-classico-com-ketchup-e-molho-de-mostarda-isolado-em-fundo-branco_123827-29747.jpg"}
   ]
 }

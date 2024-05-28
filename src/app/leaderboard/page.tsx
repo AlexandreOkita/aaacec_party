@@ -191,11 +191,11 @@ const Leaderboard = () => {
               <div>{renderFilteredLeaderBoard()}</div>
             </div>
             <div className="w-1/3">
-              <div className="h-[226px] bg-white rounded-2xl border-black border flex items-center w-full p-14">
-                <div className="mr-14">
+              <div className="h-[270px] bg-white rounded-2xl border-black border flex items-center w-full p-10 pr-5">
+                <div className="mr-10">
                   <img src={"images/leaderboard/crown.png"} />
                 </div>
-                <div className="w-[300px]">
+                <div className="w-2/3">
                   <div className="flex flex-col">
                     {top3List.map((score: Score, id: number) => (
                       <div className="mt-3 flex justify-between">
@@ -203,9 +203,11 @@ const Leaderboard = () => {
                           <div className="font-bold mr-8 text-4xl flex items-center">
                             <div>{id + 1}</div>
                           </div>
-                          <div className="text-4xl">{score.login}</div>
+                          <div className="text-4xl break-all pr-2">
+                            {score.login}
+                          </div>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center ml-4">
                           <span className="text-4xl">{score.score}</span>
                         </div>
                       </div>

@@ -5,6 +5,7 @@ export interface ScheduledBoom {
   name: number;
   startDate: string;
   endDate: string;
+  imageUrl: string;
 }
 
 export default class BoomController {
@@ -29,6 +30,7 @@ export default class BoomController {
           name: response.data.boomSchedules[0].name,
           startDate: response.data.boomSchedules[0].startDate,
           endDate: response.data.boomSchedules[0].endDate,
+          imageUrl: response.data.boomSchedules[0].imageUrl,
         };
       }
     } catch (e) {

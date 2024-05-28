@@ -20,6 +20,7 @@
     "moment-timezone": "^0.5.45",
     "next": "14.2.3",
     "react": "^18",
+    "react-confetti": "^6.1.0",
     "react-dom": "^18",
     "request": "^2.88.2",
     "usehooks-ts": "^3.1.0",

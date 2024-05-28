@@ -13,7 +13,7 @@ import BoomController, { ScheduledBoom } from "../controllers/BoomController";
 import moment, { Moment } from "moment-timezone";
 import { useRouter } from "next/navigation";
 
-const LEADERBOARD_SIZE = 10;
+const LEADERBOARD_SIZE = 12;
 
 const LEADERBOARD_CONTROLL = {
   0: [3, 3 + LEADERBOARD_SIZE],
@@ -120,20 +120,45 @@ const Leaderboard = () => {
 
   const renderFilteredLeaderBoard = () => {
     return (
-      <div className="flex flex-col">
-        {filteredLeaderboardList.map((score: Score, listIndex: number) => (
-          <div
-            className={`flex flex-row justify-between pt-2 pb-2 pr-6 pl-6 ${
-              colors[listIndex % colors.length]
-            }`}
-          >
-            <div className="flex flex-row">
-              <div className="font-bold pr-6">{score.position}</div>
-              <div>{score.login}</div>
-            </div>
-            <div>{score.score}</div>
-          </div>
-        ))}
+      <div className="flex flex-row">
+        <div className="flex flex-col w-1/2">
+          {filteredLeaderboardList
+            .slice(0, LEADERBOARD_SIZE / 2)
+            .map((score: Score, listIndex: number) => (
+              <div
+                className={`flex flex-row justify-between pt-4 pb-4 pr-6 pl-6 ${
+                  colors[listIndex % colors.length]
+                }`}
+              >
+                <div className="flex flex-row">
+                  <div className="font-bold pr-6 text-4xl">
+                    {score.position}
+                  </div>
+                  <div className="text-4xl">{score.login}</div>
+                </div>
+                <div className="text-4xl">{score.score}</div>
+              </div>
+            ))}
+        </div>
+        <div className="flex flex-col w-1/2 pl-4">
+          {filteredLeaderboardList
+            .slice(LEADERBOARD_SIZE / 2, LEADERBOARD_SIZE)
+            .map((score: Score, listIndex: number) => (
+              <div
+                className={`flex flex-row justify-between pt-4 pb-4 pr-6 pl-6 ${
+                  colors[listIndex % colors.length]
+                }`}
+              >
+                <div className="flex flex-row">
+                  <div className="font-bold pr-6 text-4xl">
+                    {score.position}
+                  </div>
+                  <div className="text-4xl">{score.login}</div>
+                </div>
+                <div className="text-4xl">{score.score}</div>
+              </div>
+            ))}
+        </div>
       </div>
     );
   };
@@ -161,7 +186,7 @@ const Leaderboard = () => {
           <div className="flex justify-between mt-5 pl-20 pr-20">
             <div className="pr-16 w-2/3 mt-[-35px]">
               <div className="mb-[10px]">
-                <span className="text-lg">RANKING</span>
+                <span className="text-4xl font-bold">RANKING</span>
               </div>
               <div>{renderFilteredLeaderBoard()}</div>
             </div>
@@ -174,12 +199,14 @@ const Leaderboard = () => {
                   <div className="flex flex-col">
                     {top3List.map((score: Score, id: number) => (
                       <div className="mt-3 flex justify-between">
-                        <div>
-                          <span className="font-bold mr-8">{id + 1}</span>
-                          <span>{score.login}</span>
+                        <div className="flex">
+                          <div className="font-bold mr-8 text-4xl flex items-center">
+                            <div>{id + 1}</div>
+                          </div>
+                          <div className="text-4xl">{score.login}</div>
                         </div>
-                        <div>
-                          <span>{score.score}</span>
+                        <div className="flex items-center">
+                          <span className="text-4xl">{score.score}</span>
                         </div>
                       </div>
                     ))}
@@ -187,9 +214,9 @@ const Leaderboard = () => {
                 </div>
               </div>
               {timer && (
-                <div className="grid grid-cols-2 mt-5 h-[125px]">
+                <div className="grid grid-cols-2 mt-5 h-[125px] gap-3">
                   <div className="flex items-center text-2xl">
-                    <span>
+                    <span className="text-4xl">
                       PREPARE-SE! <br /> PRÓXIMO BOOM EM:
                     </span>
                   </div>

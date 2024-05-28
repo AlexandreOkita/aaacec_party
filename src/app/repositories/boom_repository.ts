@@ -39,7 +39,8 @@ export class BoomRepository {
     const scheduleDocs = await firestore
       .collection("boom_schedules")
       .where("partyId", "==", partyId)
-      .where("startDate", ">", moment().tz("America/Sao_Paulo"))
+      // Subtract 3 seconds to guarantee that frontend polling won't get a race condition with timer
+      .where("startDate", ">", moment().subtract(3000).tz("America/Sao_Paulo"))
       .get();
 
     const schedules = scheduleDocs.docs.map((doc) => {
@@ -54,7 +55,9 @@ export class BoomRepository {
       );
     });
 
-    return schedules.sort((a, b) => moment(a.startDate).diff(moment(b.startDate)));
+    return schedules.sort((a, b) =>
+      moment(a.startDate).diff(moment(b.startDate))
+    );
   }
 
   static _firestoreDateToTimezone(date: any) {

@@ -9,6 +9,9 @@ import LeaderboardController, {
   Score,
 } from "../controllers/LeaderboardController";
 import { useInterval } from "usehooks-ts";
+import BoomController, { ScheduledBoom } from "../controllers/BoomController";
+import moment, { Moment } from "moment-timezone";
+import { useRouter } from "next/navigation";
 
 const LEADERBOARD_SIZE = 10;
 
@@ -24,8 +27,25 @@ const Leaderboard = () => {
     Score[]
   >([]);
   const [top3List, setTop3List] = useState<Score[]>([]);
-  const [timer, setTimer] = useState<string>("7:34");
+  const [timer, setTimer] = useState<string>("");
   const [controllId, setControllId] = useState<number>(0);
+  const [scheduledBoom, setScheduledBoom] = useState<ScheduledBoom | null>(
+    null
+  );
+
+  const router = useRouter();
+  const [previousScheduledBoom, setPreviousScheduledBoom] =
+    useState<ScheduledBoom | null>(null);
+
+  const getScheduledBoom = async () => {
+    const token = Cookies.get("token") || "";
+    const newScheduledBoom = await BoomController.getNextScheduledBoom(token);
+    if (newScheduledBoom === null) {
+      setScheduledBoom(null);
+      return;
+    }
+    setScheduledBoom(newScheduledBoom);
+  };
 
   const getLeaderboard = async () => {
     const leaderBoardResponse = await LeaderboardController.getLeaderboard();
@@ -38,11 +58,59 @@ const Leaderboard = () => {
     );
     const newControllId = controllId === 2 ? 0 : controllId + 1;
     setControllId(newControllId);
+    getScheduledBoom();
   };
 
   useEffect(() => {
     getLeaderboard();
   }, []);
+
+  const goToBoomPage = () => {
+    localStorage.setItem("scheduledBoom", JSON.stringify(scheduledBoom));
+    router.replace("/boom");
+  };
+
+  const updateBoomTimer = () => {
+    if (scheduledBoom === null) {
+      if (previousScheduledBoom !== null) {
+        const previousScheduledBoomStartDate = moment(
+          previousScheduledBoom.startDate
+        ).tz("America/Sao_Paulo");
+        console.log(
+          "previousScheduledBoomStartDate:",
+          previousScheduledBoomStartDate
+        );
+        const now = moment().tz("America/Sao_Paulo");
+
+        const previousDiff = previousScheduledBoomStartDate.diff(now);
+        console.log("previousDiff:", previousDiff);
+        if (previousDiff < 2000) {
+          goToBoomPage();
+        }
+      }
+      setTimer("");
+      return;
+    }
+    setPreviousScheduledBoom({ ...scheduledBoom });
+    const scheduledBoomStartDate = moment(scheduledBoom.startDate).tz(
+      "America/Sao_Paulo"
+    );
+    const now = moment().tz("America/Sao_Paulo");
+    const diff = scheduledBoomStartDate.diff(now);
+    const newTimer = moment(diff).format("mm:ss");
+    if (diff < 0) {
+      goToBoomPage();
+      setTimer("");
+      setPreviousScheduledBoom(null);
+      setScheduledBoom(null);
+      return;
+    }
+    setTimer(newTimer);
+  };
+
+  useInterval(() => {
+    updateBoomTimer();
+  }, 1000);
 
   useInterval(() => {
     getLeaderboard();
@@ -74,7 +142,6 @@ const Leaderboard = () => {
     <>
       <div className="flex h-screen flex-col bg-cover justify-between bg-[url('./img/bg.png')]">
         <div>
-          {controllId}
           <div className="grid grid-cols-3 mt-6">
             <div className="mt-8 flex items-baseline justify-center">
               <img src={"images/leaderboard/cloud.png"} />
@@ -119,16 +186,18 @@ const Leaderboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 mt-5 h-[125px]">
-                <div className="flex items-center text-2xl">
-                  <span>
-                    PREPARE-SE! <br /> PRÓXIMO BOOM EM:
-                  </span>
+              {timer && (
+                <div className="grid grid-cols-2 mt-5 h-[125px]">
+                  <div className="flex items-center text-2xl">
+                    <span>
+                      PREPARE-SE! <br /> PRÓXIMO BOOM EM:
+                    </span>
+                  </div>
+                  <div className="bg-white rounded-2xl border-black border flex items-center justify-center">
+                    <div className="text-5xl">{timer}</div>
+                  </div>
                 </div>
-                <div className="bg-white rounded-2xl border-black border flex items-center justify-center">
-                  <div className="text-5xl">{timer}</div>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -138,4 +207,4 @@ const Leaderboard = () => {
   );
 };
 
-export default Leaderboard;
+export default WithAuthentication(Leaderboard, []);

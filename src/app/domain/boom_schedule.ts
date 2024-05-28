@@ -10,6 +10,7 @@ export class BoomSchedule {
     public readonly partyId: string,
     public readonly startInSeconds: number,
     public readonly duration: number,
+    public readonly imageUrl?: string,
     startDate?: Moment,
     endDate?: Moment
   ) {

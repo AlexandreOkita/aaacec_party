@@ -26,9 +26,15 @@ export class BoomRepository {
   }
 
   static async scheduleBoom(boomSchedule: BoomSchedule) {
+    const boomDoc = await firestore.doc(`booms/${boomSchedule.boomId}`).get();
+    if (!boomDoc.exists) {
+      throw new DataError("Boom does not exist", "booms");
+    }
+
     await firestore.doc(`boom_schedules/${boomSchedule.boomId}`).set({
       boomId: boomSchedule.boomId,
       partyId: boomSchedule.partyId,
+      imageUrl: boomDoc.data()!.imageURL,
       name: boomSchedule.name,
       startDate: moment(boomSchedule.startDate),
       endDate: moment(boomSchedule.endDate),
@@ -49,12 +55,15 @@ export class BoomRepository {
         data.partyId,
         data.startInSeconds,
         data.duration,
+        data.imageUrl,
         this._firestoreDateToTimezone(data.startDate),
         this._firestoreDateToTimezone(data.endDate)
       );
     });
 
-    return schedules.sort((a, b) => moment(a.startDate).diff(moment(b.startDate)));
+    return schedules.sort((a, b) =>
+      moment(a.startDate).diff(moment(b.startDate))
+    );
   }
 
   static _firestoreDateToTimezone(date: any) {

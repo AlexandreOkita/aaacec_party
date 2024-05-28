@@ -4,7 +4,11 @@ export class PutNamesDTO {
   static schema = z.object({
     names: z.array(
       z.object({
-        name: z.string({ message: "Name must be a string" }),
+        name: z
+          .string({ message: "Name must be a string" })
+          .refine((name) => !name.includes("-"), {
+            message: "Name cannot include -",
+          }),
         imgUrl: z.string({ message: "Img must be a string" }),
       })
     ),

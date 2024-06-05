@@ -5,7 +5,7 @@ const firestore = new Firestore({
   keyFilename: "src/lib/data/firebase_credentials.json",
 });
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.ENVIRONMENT !== "production") {
   firestore.settings({
     host: "localhost:8080",
     ssl: false,

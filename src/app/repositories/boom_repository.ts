@@ -68,7 +68,6 @@ export class BoomRepository {
         new Date(
           moment()
             .subtract(3000)
-            .tz("America/Sao_Paulo")
             .format("YYYY/MM/DD HH:mm:ss")
         )
       )

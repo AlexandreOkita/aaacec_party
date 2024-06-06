@@ -1,6 +1,6 @@
 import { AuthRepository } from "../../../../repositories/auth_repository";
 
-export class LoginRoute {
+class LoginRoute {
   static async POST(request: Request) {
     const body = await request.json();
     const username = body.username;

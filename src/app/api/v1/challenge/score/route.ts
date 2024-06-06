@@ -6,7 +6,7 @@ import { AAACECRole } from "../../../../domain/aaacec_roles";
 import { ChallengeRepository } from "../../../../repositories/challenge_repository";
 import { AddScoreDTO } from "./score.dto";
 
-export class ScoreController {
+class ScoreController {
   @Authorize([AAACECRole.ADMIN, AAACECRole.WORKER])
   static async POST(req: Request) {
     try {

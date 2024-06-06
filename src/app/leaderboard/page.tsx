@@ -75,12 +75,12 @@ const Leaderboard = () => {
       if (previousScheduledBoom !== null) {
         const previousScheduledBoomStartDate = moment(
           previousScheduledBoom.startDate
-        ).tz("America/Sao_Paulo");
+        );
         console.log(
           "previousScheduledBoomStartDate:",
           previousScheduledBoomStartDate
         );
-        const now = moment().tz("America/Sao_Paulo");
+        const now = moment();
 
         const previousDiff = previousScheduledBoomStartDate.diff(now);
         console.log("previousDiff:", previousDiff);
@@ -92,10 +92,8 @@ const Leaderboard = () => {
       return;
     }
     setPreviousScheduledBoom({ ...scheduledBoom });
-    const scheduledBoomStartDate = moment(scheduledBoom.startDate).tz(
-      "America/Sao_Paulo"
-    );
-    const now = moment().tz("America/Sao_Paulo");
+    const scheduledBoomStartDate = moment(scheduledBoom.startDate);
+    const now = moment();
     const diff = scheduledBoomStartDate.diff(now);
     const newTimer = moment(diff).format("mm:ss");
     if (diff < 0) {

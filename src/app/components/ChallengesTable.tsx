@@ -19,7 +19,7 @@ export function ChallengesTable(props: TableProps) {
       onPointerEnterCapture={undefined}
       onPointerLeaveCapture={undefined}
     >
-      <table className="w-full min-w-max table-auto text-left">
+      <table className="w-screen table-auto text-left">
         <thead>
           <tr>
             {TABLE_HEAD.map((head) => (
@@ -56,7 +56,7 @@ export function ChallengesTable(props: TableProps) {
                   {numericId}
                 </Typography>
               </td>
-              <td className="p-4">
+              <td className="p-4 break-word">
                 <Typography
                   variant="small"
                   color="blue-gray"

@@ -38,7 +38,6 @@ class ChallengeController {
     }
   }
 
-  @Authorize([AAACECRole.ADMIN, AAACECRole.WORKER])
   static async GET(req: NextRequest) {
     try {
       if (req.nextUrl.searchParams.has("partyId")) {

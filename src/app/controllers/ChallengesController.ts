@@ -7,17 +7,12 @@ interface Challenges {
 }
 
 export default class ChallengesController {
-  static async getChallenges(token: string): Promise<Challenges[]> {
+  static async getChallenges(): Promise<Challenges[]> {
     let challenges: Challenges[];
 
     try {
       const response: AxiosResponse = await axios.get(
-        "/api/v1/challenge?partyId=sao_login",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
+        "/api/v1/challenge?partyId=sao_login"
       );
       challenges = response.data.challenges.map((challenge: Challenges) => ({
         numericId: challenge.numericId,

@@ -62,31 +62,33 @@ const Challenge = () => {
     getChallenges();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex w-screen h-screen justify-center items-center">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <>
       <NavBar />
       <div className="flex items-center h-screen flex-col justify-between mt-[-56px]">
         <div className="mt-[56px] w-full">
-          {loading ? (
-            <div className="pt-10 ">
-              <Spinner />
-            </div>
-          ) : (
-            <>
-              {currentPage === Pages.LOGINS && (
-                <LoginsPage
-                  setPage={setCurrentPage}
-                  defaultLogins={defaultLogins}
-                />
-              )}
-              {currentPage === Pages.GET_CHALLENGE && (
-                <GetChallengePage
-                  setPage={setCurrentPage}
-                  challenges={challenges}
-                />
-              )}
-            </>
-          )}
+          <>
+            {currentPage === Pages.LOGINS && (
+              <LoginsPage
+                setPage={setCurrentPage}
+                defaultLogins={defaultLogins}
+              />
+            )}
+            {currentPage === Pages.GET_CHALLENGE && (
+              <GetChallengePage
+                setPage={setCurrentPage}
+                challenges={challenges}
+              />
+            )}
+          </>
         </div>
       </div>
     </>

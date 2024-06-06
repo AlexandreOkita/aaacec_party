@@ -129,6 +129,7 @@ const Leaderboard = () => {
                 className={`flex flex-row justify-between pt-4 pb-4 pr-6 pl-6 ${
                   colors[listIndex % colors.length]
                 }`}
+                key={score.position}
               >
                 <div className="flex flex-row">
                   <div className="font-bold pr-6 text-4xl">
@@ -148,6 +149,7 @@ const Leaderboard = () => {
                 className={`flex flex-row justify-between pt-4 pb-4 pr-6 pl-6 ${
                   colors[listIndex % colors.length]
                 }`}
+                key={score.position}
               >
                 <div className="flex flex-row">
                   <div className="font-bold pr-6 text-4xl">
@@ -198,7 +200,7 @@ const Leaderboard = () => {
                 <div className="w-2/3">
                   <div className="flex flex-col">
                     {top3List.map((score: Score, id: number) => (
-                      <div className="mt-3 flex justify-between">
+                      <div className="mt-3 flex justify-between" key={id}>
                         <div className="flex">
                           <div className="font-bold mr-8 text-4xl flex items-center">
                             <div>{id + 1}</div>

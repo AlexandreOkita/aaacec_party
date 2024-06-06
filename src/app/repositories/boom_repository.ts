@@ -31,20 +31,28 @@ export class BoomRepository {
       throw new DataError("Boom does not exist", "booms");
     }
 
+    console.log(
+      new Date(
+        moment(boomSchedule.startDate)
+          .tz("America/Sao_Paulo")
+          .format("YYYY/MM/DD HH:mm:ss")
+      )
+    );
+
+    console.log(
+      new Date(moment(boomSchedule.startDate).tz("America/Sao_Paulo").format())
+    );
+
     await firestore.doc(`boom_schedules/${boomSchedule.boomId}`).set({
       boomId: boomSchedule.boomId,
       partyId: boomSchedule.partyId,
       imageUrl: boomDoc.data()!.imageURL,
       name: boomSchedule.name,
       startDate: new Date(
-        moment(boomSchedule.startDate)
-          .tz("America/Sao_Paulo")
-          .format("YYYY/MM/DD HH:mm:ss")
+        moment(boomSchedule.startDate).format("YYYY/MM/DD HH:mm:ss")
       ),
       endDate: new Date(
-        moment(boomSchedule.endDate)
-          .tz("America/Sao_Paulo")
-          .format("YYYY/MM/DD HH:mm:ss")
+        moment(boomSchedule.endDate).format("YYYY/MM/DD HH:mm:ss")
       ),
     });
   }

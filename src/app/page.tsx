@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoginController from "./controllers/LoginController";
 import ByPassLogin from "./middleware/ByPassLogin";
+import { AAACECRole } from "./domain/aaacec_roles";
 
 const Login = () => {
   const [username, setUsername] = useState<string>("");
@@ -23,10 +24,12 @@ const Login = () => {
 
   const onClickLogin = async () => {
     setLoading(true);
-    const status = await LoginController.login(username, password);
+    const { status, role } = await LoginController.login(username, password);
     if (status == 200) {
       setError("");
-      router.replace("/concierge");
+      if (role === AAACECRole.CONCIERGE) router.replace("/concierge");
+      else if (role === AAACECRole.WORKER) router.replace("/challenge");
+      else router.replace("/challenge");
     } else {
       setError("Falha de autenticação");
       setLoading(false);

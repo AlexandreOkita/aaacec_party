@@ -1,12 +1,21 @@
 import Cookies from "js-cookie";
 import axios, { AxiosResponse } from "axios";
+import { JWTSigner } from "@/lib/jwt/jwt_signer";
 
 interface loginDataInterface {
   token: string;
 }
 
+interface loginResponse {
+  status: number;
+  role: string;
+}
+
 export default class LoginController {
-  static async login(username: string, password: string): Promise<number> {
+  static async login(
+    username: string,
+    password: string
+  ): Promise<loginResponse> {
     let loginData: loginDataInterface;
 
     try {
@@ -18,12 +27,17 @@ export default class LoginController {
         token: response.data.token,
       };
     } catch (e) {
-      return 401;
+      return { status: 200, role: "" };
     }
 
+    console.log("loginData:", loginData);
     const newToken = loginData.token;
     Cookies.set("token", newToken);
-    return 200;
+    const tokenInformation = await JWTSigner.verify(loginData.token);
+    const role = tokenInformation.role;
+    console.log("token data2:", tokenInformation.role);
+
+    return { status: 200, role };
   }
 
   static logOut(router: any): void {

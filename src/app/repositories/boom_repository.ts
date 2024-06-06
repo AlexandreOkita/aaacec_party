@@ -36,8 +36,8 @@ export class BoomRepository {
       partyId: boomSchedule.partyId,
       imageUrl: boomDoc.data()!.imageURL,
       name: boomSchedule.name,
-      startDate: moment(boomSchedule.startDate),
-      endDate: moment(boomSchedule.endDate),
+      startDate: moment(boomSchedule.startDate).toDate(),
+      endDate: moment(boomSchedule.endDate).toDate(),
     });
   }
 

@@ -19,11 +19,9 @@ export class BoomSchedule {
       this.endDate = endDate.format("YYYY-MM-DDTHH:mm:ss");
     } else {
       this.startDate = moment()
-        .tz("America/Sao_Paulo")
         .add(this.startInSeconds, "seconds")
         .format("YYYY-MM-DDTHH:mm:ss");
       this.endDate = moment()
-        .tz("America/Sao_Paulo")
         .add(this.startInSeconds + this.duration, "seconds")
         .format("YYYY-MM-DDTHH:mm:ss");
     }

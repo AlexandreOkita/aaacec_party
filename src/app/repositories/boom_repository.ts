@@ -36,17 +36,22 @@ export class BoomRepository {
       partyId: boomSchedule.partyId,
       imageUrl: boomDoc.data()!.imageURL,
       name: boomSchedule.name,
-      startDate: moment(boomSchedule.startDate).toDate(),
-      endDate: moment(boomSchedule.endDate).toDate(),
+      startDate: new Date(moment(boomSchedule.startDate).format()),
+      endDate: new Date(moment(boomSchedule.endDate).format()),
     });
   }
 
   static async getBoomSchedules(partyId: string): Promise<BoomSchedule[]> {
+    console.log(moment().subtract(3000).tz("America/Sao_Paulo").toDate());
     const scheduleDocs = await firestore
       .collection("boom_schedules")
       .where("partyId", "==", partyId)
       // Subtract 3 seconds to guarantee that frontend polling won't get a race condition with timer
-      .where("startDate", ">", moment().subtract(3000).tz("America/Sao_Paulo"))
+      .where(
+        "startDate",
+        ">",
+        new Date(moment().subtract(3000).tz("America/Sao_Paulo").format())
+      )
       .get();
 
     const schedules = scheduleDocs.docs.map((doc) => {

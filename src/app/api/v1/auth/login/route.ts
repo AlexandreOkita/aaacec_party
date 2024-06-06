@@ -7,7 +7,7 @@ class LoginRoute {
     const password = body.password;
 
     const token = await AuthRepository.login(username, password);
-    return Response.json({ token }, { status: 200 });
+    return Response.json({ token,  }, { status: 200 });
   }
 }
 

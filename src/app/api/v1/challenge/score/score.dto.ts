@@ -17,7 +17,7 @@ export class AddScoreDTO {
 
   static fromObject(object: any): AddScoreDTO {
     if (object.score == null) {
-      object.score = 0;
+      object.score = 1;
     }
     return new AddScoreDTO(object.name, object.number, object.score);
   }

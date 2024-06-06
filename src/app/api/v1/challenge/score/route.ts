@@ -16,8 +16,14 @@ class ScoreController {
         AddScoreDTO.schema,
         AddScoreDTO.fromObject
       );
-      await ChallengeRepository.scoreGuest(dto.guest);
-      return Response.json({ message: "Score added" }, { status: 200 });
+      const currentScore = await ChallengeRepository.scoreGuest(
+        dto.guest,
+        dto.score
+      );
+      return Response.json(
+        { message: `Score added! Current score: ${currentScore}` },
+        { status: 200 }
+      );
     } catch (error) {
       if (error instanceof APIError) {
         return error.failMessage();

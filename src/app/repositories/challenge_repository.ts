@@ -29,7 +29,7 @@ export class ChallengeRepository {
     });
   }
 
-  static async scoreGuest(guestId: string) {
+  static async scoreGuest(guestId: string, score: number): Promise<number> {
     const guest = await firestore.doc(`guest/list/guests/${guestId}`).get();
     if (!guest.exists) {
       throw new DataError("GuestId not found", "guests");
@@ -42,8 +42,10 @@ export class ChallengeRepository {
 
     await firestore.doc(`guest/list/guests/${guestId}`).set({
       ...data,
-      score: data.score + 1,
+      score: data.score + score,
     });
+
+    return data.score + score;
   }
 
   static async getAllScores() {

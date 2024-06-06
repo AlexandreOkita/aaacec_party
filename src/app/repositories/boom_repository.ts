@@ -36,8 +36,12 @@ export class BoomRepository {
       partyId: boomSchedule.partyId,
       imageUrl: boomDoc.data()!.imageURL,
       name: boomSchedule.name,
-      startDate: new Date(moment(boomSchedule.startDate).format()),
-      endDate: new Date(moment(boomSchedule.endDate).format()),
+      startDate: new Date(
+        moment(boomSchedule.startDate).tz("America/Sao_Paulo").format()
+      ),
+      endDate: new Date(
+        moment(boomSchedule.endDate).tz("America/Sao_Paulo").format()
+      ),
     });
   }
 

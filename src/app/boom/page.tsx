@@ -29,8 +29,8 @@ const Boom = () => {
   };
 
   const checkBoomTimer = () => {
-    const endDate = moment(scheduledBoom?.endDate).tz("America/Sao_Paulo");
-    const now = moment().tz("America/Sao_Paulo");
+    const endDate = moment(scheduledBoom?.endDate);
+    const now = moment();
     const diff = endDate.diff(now);
     if (diff < 0) {
       localStorage.setItem("scheduledBoom", "");

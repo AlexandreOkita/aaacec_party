@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import { ChallengesTable } from "../components/ChallengesTable";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/outline";
 import ChallengesController from "../controllers/ChallengesController";
-import { Challenge } from "../challenge/page";
+
+interface Challenge {
+  numericId: number;
+  description: string;
+}
 
 export default function DesafiosPage() {
   const [selectedNumber, setSelectedNumber] = useState<number>();

@@ -6,8 +6,7 @@ interface TableRow {
   numericId: number;
   description: string;
 }
-
-export interface TableProps {
+interface TableProps {
   tableRows: TableRow[];
 }
 

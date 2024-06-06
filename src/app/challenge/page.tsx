@@ -6,23 +6,22 @@ import WithAuthentication from "../middleware/WithAuthentication";
 import { NavBar } from "../components/NavBar";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import GuestController from "../controllers/GuestController";
 import DefaultLoginsController from "../controllers/DefaultLoginsController";
 import LoginsPage from "./LoginsPage";
 import GetChallengePage from "./GetChallengePage";
 import ChallengesController from "../controllers/ChallengesController";
 
-export interface DefaultLogin {
+interface DefaultLogin {
   imgUrl: string;
   login: string;
 }
 
-export interface Challenge {
+interface Challenge {
   numericId: number;
   description: string;
 }
 
-export enum Pages {
+enum Pages {
   LOGINS = "logins",
   GET_CHALLENGE = "get_challenge",
 }

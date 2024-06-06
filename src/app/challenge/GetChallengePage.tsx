@@ -1,8 +1,16 @@
 import { IconButton, Input } from "@material-tailwind/react";
-import { Challenge, Pages } from "./page";
 import { useState } from "react";
 import { ChallengesTable } from "../components/ChallengesTable";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/outline";
+interface Challenge {
+  numericId: number;
+  description: string;
+}
+
+enum Pages {
+  LOGINS = "logins",
+  GET_CHALLENGE = "get_challenge",
+}
 
 export default function GetChallengePage({
   setPage,

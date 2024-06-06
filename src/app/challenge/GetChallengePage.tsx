@@ -39,6 +39,7 @@ export default function GetChallengePage({
                 label="Número"
                 value={selectedNumber}
                 onChange={(e) => setSelectedNumber(parseInt(e.target.value))}
+                crossOrigin={undefined}
               />
             </div>
             <div>

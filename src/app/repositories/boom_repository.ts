@@ -37,16 +37,19 @@ export class BoomRepository {
       imageUrl: boomDoc.data()!.imageURL,
       name: boomSchedule.name,
       startDate: new Date(
-        moment(boomSchedule.startDate).tz("America/Sao_Paulo").format()
+        moment(boomSchedule.startDate)
+          .tz("America/Sao_Paulo")
+          .format("YYYY/MM/DD HH:mm:ss")
       ),
       endDate: new Date(
-        moment(boomSchedule.endDate).tz("America/Sao_Paulo").format()
+        moment(boomSchedule.endDate)
+          .tz("America/Sao_Paulo")
+          .format("YYYY/MM/DD HH:mm:ss")
       ),
     });
   }
 
   static async getBoomSchedules(partyId: string): Promise<BoomSchedule[]> {
-    console.log(moment().subtract(3000).tz("America/Sao_Paulo").toDate());
     const scheduleDocs = await firestore
       .collection("boom_schedules")
       .where("partyId", "==", partyId)
@@ -54,7 +57,12 @@ export class BoomRepository {
       .where(
         "startDate",
         ">",
-        new Date(moment().subtract(3000).tz("America/Sao_Paulo").format())
+        new Date(
+          moment()
+            .subtract(3000)
+            .tz("America/Sao_Paulo")
+            .format("YYYY/MM/DD HH:mm:ss")
+        )
       )
       .get();
 

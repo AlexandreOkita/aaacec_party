@@ -11,17 +11,18 @@ export class BoomScheduleDTO {
       .min(10, {
         message: "StartInSeconds must be greater than or equal to 0",
       }),
+    duration: z.number({ message: "Duration must be a number" }).optional(),
   });
 
   constructor(
     public readonly name: string,
     public readonly partyId: string,
     public readonly startInSeconds: number,
-    public readonly duration: number,
+    public readonly duration: number
   ) {}
 
   static fromObject(object: any): BoomScheduleDTO {
-    if (!object.duration) {
+    if (object.duration == null) {
       object.duration = BoomScheduleDTO.DEFAULT_DURATION;
     }
     return new BoomScheduleDTO(

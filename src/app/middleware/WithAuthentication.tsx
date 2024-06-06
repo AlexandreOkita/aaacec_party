@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { AAACECRole } from "../domain/aaacec_roles";
 import { useRouter } from "next/navigation";
 import LoginController from "../controllers/LoginController";
+import { Spinner } from "@material-tailwind/react";
 
 export default function WithAuthentication(
   WrappedComponent: () => JSX.Element,
@@ -30,7 +31,13 @@ export default function WithAuthentication(
       verifyToken();
     }, []);
 
-    return loading ? <div>Loading</div> : <WrappedComponent {...props} />;
+    return loading ? (
+      <div className="flex w-screen h-screen justify-center items-center">
+        <Spinner />
+      </div>
+    ) : (
+      <WrappedComponent {...props} />
+    );
   };
   return Wrapper;
 }

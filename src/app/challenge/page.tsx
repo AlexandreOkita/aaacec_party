@@ -47,9 +47,8 @@ const Challenge = () => {
   };
 
   const getChallenges = async () => {
-    const token = Cookies.get("token") || "";
     setLoading(true);
-    const challengesResponse = await ChallengesController.getChallenges(token);
+    const challengesResponse = await ChallengesController.getChallenges();
     if (!challengesResponse?.length) {
       setError("Erro ao obter logins");
     } else {

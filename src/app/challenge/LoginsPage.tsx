@@ -73,6 +73,7 @@ export default function LoginsPage({
               type="number"
               label="ID numérico"
               onChange={(e) => setSelectedId(parseInt(e.target.value))}
+              crossOrigin={undefined}
             />
           </div>
         </DialogBody>

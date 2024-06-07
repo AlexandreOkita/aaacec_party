@@ -24,7 +24,7 @@ export default class LeaderboardController {
         `/api/v1/challenge/leaderboard?${Date.now()}`,
         {
           headers: {
-            "Cache-Control": "no-cache",
+            "Cache-Control": "no-cache, max-age=0",
           },
         }
       );

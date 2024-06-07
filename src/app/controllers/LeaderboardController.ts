@@ -21,7 +21,7 @@ export default class LeaderboardController {
 
     try {
       const response: AxiosResponse = await axios.get(
-        "/api/v1/challenge/leaderboard",
+        `/api/v1/challenge/leaderboard?${Date.now()}`,
         {
           headers: {
             "Cache-Control": "no-cache",

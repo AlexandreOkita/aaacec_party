@@ -17,6 +17,8 @@ class LeaderboardController {
   }
 }
 
+export const fetchCache = 'force-no-store';
+
 export async function GET(request: Request) {
   return LeaderboardController.GET(request);
 }

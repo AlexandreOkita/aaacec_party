@@ -5,8 +5,12 @@ import { GuestRepository } from "../../../repositories/guest_repository";
 class GenerateGuestController {
   @Authorize([AAACECRole.ADMIN, AAACECRole.CONCIERGE])
   static async POST(_request: Request) {
-    const guestName = await GuestRepository.generateGuest();
-    return Response.json({ name: guestName }, { status: 200 });
+    const { name, originalName, originalNumber } =
+      await GuestRepository.generateGuest();
+    return Response.json(
+      { name, originalName, originalNumber },
+      { status: 200 }
+    );
   }
 
   @Authorize([AAACECRole.ADMIN])

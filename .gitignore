@@ -3,7 +3,10 @@
 # credentials
 firebase_credentials.json
 
+.next
+.firebase
 # dependencies
+node_modules
 /node_modules
 /.pnp
 .pnp.js

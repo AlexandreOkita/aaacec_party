@@ -234,6 +234,9 @@ const Leaderboard = () => {
           </div>
         </div>
         <div className="w-screen h-[79px] bg-[url('./img/mario-footer.png')]" />
+        <div className="absolute text-white bottom-0 font-bold right-0 pr-4">
+          Made by: Okitarani
+        </div>
       </div>
     </>
   );

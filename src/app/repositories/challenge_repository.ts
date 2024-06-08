@@ -1,6 +1,8 @@
+import moment from "moment";
 import { firestore } from "../../lib/data/firestore";
 import { DataError } from "../../lib/error/data_error";
 import { Challenge } from "../domain/challenge";
+import { ChallengeHistory } from "../domain/challenge_history";
 
 export class ChallengeRepository {
   static async addChallenge(challenge: Challenge) {
@@ -69,5 +71,14 @@ export class ChallengeRepository {
         name: doc.name,
         score: doc.score,
       }));
+  }
+
+
+  static async addChallengeHistory(challenge_history: ChallengeHistory) {
+    await firestore.doc(`challenges_history/${challenge_history.user}-${challenge_history.guest}-${challenge_history.ts}`).set({
+      guest: challenge_history.guest,
+      user: challenge_history.user,
+      timestamp: challenge_history.ts,
+    });
   }
 }

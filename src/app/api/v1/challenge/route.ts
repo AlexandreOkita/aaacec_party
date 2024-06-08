@@ -43,6 +43,7 @@ class ChallengeController {
       if (req.nextUrl.searchParams.has("partyId")) {
         const partyId = req.nextUrl.searchParams.get("partyId");
         const challenges = await ChallengeRepository.getChallenges(partyId!);
+        challenges.sort((a, b) => a.numericId - b.numericId);
         return Response.json({ challenges }, { status: 200 });
       }
       throw new APIError("Please provide a partyId as a query parameter.", 400);

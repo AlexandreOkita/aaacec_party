@@ -20,15 +20,14 @@ export default class LeaderboardController {
     let leaderboard: Score[];
 
     try {
-      const response: AxiosResponse = await axios.get(
+      const response: Response = await fetch(
         `/api/v1/challenge/leaderboard?tid=${Date.now()}`,
         {
-          headers: {
-            "Cache-Control": "no-cache, max-age=0",
-          },
+          method: "GET",
         }
       );
-      leaderboard = response.data.scores.map((score: ScoreResponse) => ({
+      const data = await response.json();
+      leaderboard = data.scores.map((score: ScoreResponse) => ({
         position: score.position,
         login: score.id,
         name: score.name,

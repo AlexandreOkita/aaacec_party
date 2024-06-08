@@ -42,14 +42,19 @@ const Concierge = () => {
             {login || renderEmptyLogin()}
           </span>
         )}
-        <Button
-          className="mb-9"
-          placeholder={undefined}
-          onClick={() => generateLogin()}
-          disabled={loading}
+
+        <div
+          onClick={() => (loading ? null : generateLogin())}
+          className="fixed bottom-0 w-screen h-14 bg-purple flex justify-center items-center text-lg cursor-pointer"
         >
-          Gerar login
-        </Button>
+          {loading ? (
+            <div className="flex w-screen h-screen justify-center items-center">
+              <Spinner />
+            </div>
+          ) : (
+            <span className="text-xl font-bold">Gerar login</span>
+          )}
+        </div>
       </div>
     </>
   );

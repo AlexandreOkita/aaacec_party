@@ -21,6 +21,7 @@ const config = withMT({
         blue: "#DCE4FF",
         green: "#DCFFE2",
         yellow: "#FFF5DC",
+        purple: "#6283F8",
       },
       height: {
         "screen-with-navbar": "calc(100vh - 56px)",

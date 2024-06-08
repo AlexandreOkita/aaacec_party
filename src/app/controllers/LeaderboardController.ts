@@ -16,18 +16,19 @@ interface ScoreResponse {
 }
 
 export default class LeaderboardController {
-  static async getLeaderboard(): Promise<Score[]> {
+  static async getLeaderboard(token: string): Promise<Score[]> {
     let leaderboard: Score[];
 
     try {
-      const response: Response = await fetch(
+      const response: AxiosResponse = await axios.get(
         `/api/v1/challenge/leaderboard?tid=${Date.now()}`,
         {
-          method: "GET",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
         }
       );
-      const data = await response.json();
-      leaderboard = data.scores.map((score: ScoreResponse) => ({
+      leaderboard = response.data.scores.map((score: ScoreResponse) => ({
         position: score.position,
         login: score.id,
         name: score.name,

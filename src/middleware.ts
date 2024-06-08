@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { JWTSigner } from "./lib/jwt/jwt_signer";
 
 export async function middleware(request: NextRequest) {
-  if (request.method === "GET" && request.url.includes("/api/v1/challenge")) {
+  if (
+    request.method === "GET" &&
+    request.url.includes("/api/v1/challenge") &&
+    !request.url.includes("/api/v1/challenge/leaderboard")
+  ) {
     return NextResponse.next();
   }
   const auth_token = request.headers.get("Authorization");
@@ -20,5 +24,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/api((?!/v1/auth|/v1/challenge/leaderboard).*)",
+  matcher: "/api((?!/v1/auth).*)",
 };

@@ -67,9 +67,9 @@ export default function GetChallengePage({
       </div>
       <div
         onClick={() => setPage(Pages.LOGINS)}
-        className="fixed bottom-0 w-screen h-14 bg-gray-600 flex justify-center items-center text-lg cursor-pointer"
+        className="fixed bottom-0 w-screen h-14 bg-purple flex justify-center items-center text-lg cursor-pointer"
       >
-        Atribuir pontos
+        <span className="text-xl font-bold">Atribuir pontos</span>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@ import axios, { AxiosResponse } from "axios";
 
 interface guestDataInterface {
   guestLogin: string | null;
+  guestOriginalName: string;
+  guestOriginalNumber: number;
 }
 
 export default class GuestController {
@@ -21,9 +23,15 @@ export default class GuestController {
       );
       guestData = {
         guestLogin: response.data.name,
+        guestOriginalName: response.data.originalName,
+        guestOriginalNumber: response.data.originalNumber,
       };
     } catch (e) {
-      return { guestLogin: null };
+      return {
+        guestLogin: null,
+        guestOriginalName: "",
+        guestOriginalNumber: 0,
+      };
     }
 
     return guestData;
@@ -32,7 +40,8 @@ export default class GuestController {
   static async scoreGuest(
     token: string,
     login: string,
-    id: number
+    id: number,
+    _score: number = 1
   ): Promise<boolean> {
     try {
       const response: AxiosResponse = await axios.post(
@@ -40,6 +49,7 @@ export default class GuestController {
         {
           name: login,
           number: id,
+          score: _score,
         },
         {
           headers: {

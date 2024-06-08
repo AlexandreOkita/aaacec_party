@@ -29,7 +29,12 @@ export default function LoginsPage({
   defaultLogins: DefaultLogin[];
 }) {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
+  const handleOpen = () => {
+    if (open) {
+      setSelectedId(undefined);
+    }
+    setOpen(!open);
+  };
 
   const [selectedLogin, setSelectedLogin] = useState<DefaultLogin>();
   const [selectedId, setSelectedId] = useState<number>();
@@ -84,6 +89,7 @@ export default function LoginsPage({
           <Button
             variant="gradient"
             color="gray"
+            disabled={!selectedId && selectedId != 0}
             onClick={() => {
               scoreGuest();
               handleOpen();
@@ -127,9 +133,9 @@ export default function LoginsPage({
       {renderDialog()}
       <div
         onClick={() => setPage(Pages.GET_CHALLENGE)}
-        className="fixed bottom-0 w-screen h-14 bg-gray-600 flex justify-center items-center text-lg cursor-pointer"
+        className="fixed bottom-0 w-screen h-14 bg-purple flex justify-center items-center text-lg cursor-pointer"
       >
-        Ver desafios
+        <span className="text-xl font-bold">Ver desafios</span>
       </div>
     </div>
   );

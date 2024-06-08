@@ -1,5 +1,11 @@
 import { firestore } from "../../lib/data/firestore";
 
+interface GuestResponse {
+  name: string;
+  originalName: string;
+  originalNumber: number;
+}
+
 export class GuestRepository {
   static async setAvailableNames(names: { name: string; imgUrl: string }[]) {
     firestore.doc("guest/names").set({ names });
@@ -15,7 +21,7 @@ export class GuestRepository {
     return doc.data()!.names;
   }
 
-  static async generateGuest(): Promise<string> {
+  static async generateGuest(): Promise<GuestResponse> {
     const doc = await firestore.doc("guest/names").get();
 
     if (!doc.data()) {
@@ -58,7 +64,11 @@ export class GuestRepository {
     }
 
     this._addGuest(leastUsedName, minCount);
-    return `${leastUsedName}-${minCount}`;
+    return {
+      name: `${leastUsedName}-${minCount}`,
+      originalName: leastUsedName,
+      originalNumber: minCount,
+    };
   }
 
   static async clearGuests() {

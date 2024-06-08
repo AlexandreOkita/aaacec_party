@@ -4,6 +4,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNzYzODQyNSwiZXhwIjoxNzE4ODQ4MDI1fQ.TSBd6iSZmdnrLiHfLHLa5FJPuDtqtnSvyzCFN4WfQP4
 
 {
-  "name": "pipoca",
-  "number": 2
+  "name": "biscoito",
+  "number": 0,
+  "score": 1
 }

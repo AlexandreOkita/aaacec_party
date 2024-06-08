@@ -48,7 +48,10 @@ const Leaderboard = () => {
   };
 
   const getLeaderboard = async () => {
-    const leaderBoardResponse = await LeaderboardController.getLeaderboard();
+    const token = Cookies.get("token") || "";
+    const leaderBoardResponse = await LeaderboardController.getLeaderboard(
+      token
+    );
     setLeaderboardList(leaderBoardResponse);
     setTop3List(leaderBoardResponse.slice(0, 3));
     const firstIndex = (LEADERBOARD_CONTROLL as any)[controllId][0];

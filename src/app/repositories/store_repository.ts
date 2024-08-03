@@ -7,8 +7,9 @@ import { StoreItem } from "../domain/store_item";
 export class StoreRepository {
   static async addStoreItem(storeItem: StoreItem): Promise<void> {
     await firestore.doc(`store/${storeItem.id}`).set({
-      description: storeItem.description,
+      name: storeItem.name,
       price: storeItem.price,
+      imageUrl: storeItem.imageUrl,
       partyId: storeItem.partyId,
     });
   }
@@ -19,7 +20,7 @@ export class StoreRepository {
       throw new DataError("Item not found", "store");
     }
     const data = item.data()!;
-    return new StoreItem(id, data.description, data.price, data.imageURL, data.partyId);
+    return new StoreItem(id, data.description, data.price, data.imageUrl, data.partyId);
   }
 
   static async getItems(partyId: string) {
@@ -29,7 +30,7 @@ export class StoreRepository {
       .get();
     return items.docs.map((doc) => {
       const data = doc.data();
-      return new StoreItem(doc.id, data.description, data.price, data.imageURL, data.partyId);
+      return new StoreItem(doc.id, data.name, data.price, data.imageUrl, data.partyId);
     });
   }
 

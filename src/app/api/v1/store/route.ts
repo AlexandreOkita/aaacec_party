@@ -22,7 +22,7 @@ class StorageController {
       await StoreRepository.addStoreItem(
         new StoreItem(
           id,
-          dto.description,
+          dto.name,
           dto.price,
           dto.imageUrl,
           dto.partyId,
@@ -43,9 +43,10 @@ class StorageController {
     try {
       if (req.nextUrl.searchParams.has("partyId")) {
         const partyId = req.nextUrl.searchParams.get("partyId");
-        const challenges = await StoreRepository.getItems(partyId!);
-        challenges.sort((a, b) => a.price - b.price);
-        return Response.json({ challenges }, { status: 200 });
+        const storeItems = await StoreRepository.getItems(partyId!);
+        storeItems.sort((a, b) => a.price - b.price);
+
+        return Response.json({ storeItems }, { status: 200 });
       }
       throw new APIError("Please provide a partyId as a query parameter.", 400);
     } catch (error) {

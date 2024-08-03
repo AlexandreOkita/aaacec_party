@@ -7,6 +7,7 @@ import { AAACECRole } from "../../../../domain/aaacec_roles";
 import { BuyItemDTO } from "./purchase.dto";
 import { Purchase } from "@/app/domain/purchase";
 import { StoreRepository } from "@/app/repositories/store_repository";
+import { PermissionError } from "@/lib/error/permission_error";
 
 class PurchaseController {
   @Authorize([AAACECRole.ADMIN, AAACECRole.WORKER])
@@ -25,14 +26,18 @@ class PurchaseController {
         dto.guest,
         storeItem,
       );
+
       await StoreRepository.addPurchase(new Purchase(dto.guest, payload.username, dto.itemId));
       return Response.json(
-        { message: `Item bought succesfully! Remaining score: ${currentScore}` },
+        { message: `Item bought succesfully! Remaining score: ${currentScore}`, score: currentScore },
         { status: 200 }
       );
     } catch (error) {
       if (error instanceof APIError) {
         return error.failMessage();
+      }
+      if (error instanceof PermissionError) {
+        return Response.json({ message: error.message }, { status: 403 });
       }
       if (error instanceof DataError) {
         return Response.json({ message: error.message }, { status: 500 });

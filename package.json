@@ -23,6 +23,7 @@
     "react": "^18",
     "react-confetti": "^6.1.0",
     "react-dom": "^18",
+    "react-toastify": "^10.0.5",
     "request": "^2.88.2",
     "usehooks-ts": "^3.1.0",
     "zod": "^3.23.8"

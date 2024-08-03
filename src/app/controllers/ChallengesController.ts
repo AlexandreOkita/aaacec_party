@@ -12,7 +12,7 @@ export default class ChallengesController {
 
     try {
       const response: AxiosResponse = await axios.get(
-        "/api/v1/challenge?partyId=sao_login"
+        "/api/v1/challenge?partyId=corotebreak"
       );
       challenges = response.data.challenges.map((challenge: Challenges) => ({
         numericId: challenge.numericId,

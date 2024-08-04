@@ -4,6 +4,7 @@ export class Challenge {
     public readonly description: string,
     public readonly points: number,
     public readonly numericId: number,
-    public readonly partyId: string,
+    public readonly tags: string[],
+    public readonly partyId: string
   ) {}
 }

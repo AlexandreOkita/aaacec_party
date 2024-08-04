@@ -24,6 +24,7 @@ class ChallengeController {
           dto.description,
           dto.points,
           dto.numericId,
+          dto.tags,
           dto.partyId
         )
       );

@@ -1,76 +1,91 @@
-import { IconButton, Input } from "@material-tailwind/react";
-import { useState } from "react";
-import { ChallengesTable } from "../components/ChallengesTable";
-import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/outline";
-interface Challenge {
-  numericId: number;
-  description: string;
-}
+import { Input, Checkbox, Select, Option, Button } from "@material-tailwind/react";
 
 enum Pages {
-  LOGINS = "logins",
   GET_CHALLENGE = "get_challenge",
+  SOLVE_CHALLENGE = "solve_challenge"
 }
 
 export default function GetChallengePage({
   setPage,
-  challenges,
+  setTags,
+  setDifficulty,
+  setGuestId,
+  pickRandomChallenge,
+  guestId,
+  tags,
+  difficulty
 }: {
   setPage: (page: Pages) => void;
-  challenges: Challenge[];
+  setTags: (tags: string[]) => void;
+  setDifficulty: (difficulty: number) => void;
+  setGuestId: (guestId: number) => void;
+  pickRandomChallenge: () => void;
+  guestId: number;
+  tags: string[];
+  difficulty: number;
 }) {
-  const [selectedNumber, setSelectedNumber] = useState<number>();
 
-  const getRandomChallenge = () => {
-    const max = challenges.length;
-    const randomNumber = Math.floor(Math.random() * max) + 1;
-    setSelectedNumber(randomNumber);
+  const generateChallenge = () => {
+    pickRandomChallenge();
+    setPage(Pages.SOLVE_CHALLENGE);
+  };
+
+  const toggleTag = (e) => {
+
+    let newTags: string[] = [];
+
+    if (e.target.checked) {
+      
+      newTags = [...tags, e.target.value]
+
+    } else {
+      
+      newTags = tags?.filter((tag) => e.target.value != tag)
+
+    }
+
+    setTags(newTags);
+
   };
 
   return (
-    <div className="flex justify-between flex-col">
-      <div className="p-3 mb-14">
-        <div className="flex flex-col">
-          <span>Número do desafio:</span>
-          <div className="mt-2 mb-4 flex justify-between">
-            <div className="w-2/3">
-              <Input
-                type="number"
-                label="Número"
-                value={selectedNumber}
-                onChange={(e) => setSelectedNumber(parseInt(e.target.value))}
-                crossOrigin={undefined}
-              />
-            </div>
-            <div>
-              <IconButton
-                variant="outlined"
-                onClick={() => getRandomChallenge()}
-              >
-                <ArrowPathRoundedSquareIcon className="h-5 w-5" />
-              </IconButton>
-            </div>
-          </div>
+    
+    <main className="flex items-center justify-center h-screen">
+
+    	<div className="flex flex-col gap-4 px-3">
+
+        <div>
+          <Input variant="outlined" placeholder="ID" label="ID" type="number" value={guestId} onChange={(e) => setGuestId(parseInt(e.target.value))} crossOrigin={undefined}/>
         </div>
-        <ChallengesTable
-          tableRows={challenges
-            .map((challenge: Challenge) => ({
-              numericId: challenge.numericId,
-              description: challenge.description,
-            }))
-            .filter((c: Challenge) =>
-              selectedNumber || selectedNumber == 0
-                ? c.numericId === selectedNumber
-                : true
-            )}
-        />
-      </div>
-      <div
-        onClick={() => setPage(Pages.LOGINS)}
-        className="fixed bottom-0 w-screen h-14 bg-purple flex justify-center items-center text-lg cursor-pointer"
-      >
-        <span className="text-xl font-bold">Atribuir pontos</span>
-      </div>
-    </div>
+
+        <div>
+          <Checkbox value="alcoolico" label="Incluir álcool" onChange={toggleTag} checked={tags.includes("alcoolico")} />
+          <Checkbox value="pegacao" label="Incluir pegação" onChange={toggleTag} checked={tags.includes("pegacao")} />
+        </div>
+        
+        <div>
+
+          {!isNaN(difficulty) && (
+            <Select label="Dificuldade" value={difficulty.toString()} onChange={(value) => setDifficulty(parseInt(value || ""))}>
+              <Option value="1">Fácil</Option>
+              <Option value="2">Médio</Option>
+              <Option value="3">Difícil</Option>
+            </Select>
+          )}
+           {isNaN(difficulty) && (
+            <Select label="Dificuldade" onChange={(value) => setDifficulty(parseInt(value || ""))}>
+              <Option value="1">Fácil</Option>
+              <Option value="2">Médio</Option>
+              <Option value="3">Difícil</Option>
+            </Select>
+          )}
+
+        </div>
+
+        {!isNaN(guestId) && !isNaN(difficulty) ? <Button onClick={generateChallenge}>GERAR DESAFIO</Button> : <Button disabled>GERAR DESAFIO</Button>}
+
+    	</div>
+
+    </main>
   );
 }

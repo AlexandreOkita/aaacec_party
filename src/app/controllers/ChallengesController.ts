@@ -4,6 +4,8 @@ import axios, { AxiosResponse } from "axios";
 interface Challenges {
   numericId: number;
   description: string;
+  tags: string[];
+  points: number;
 }
 
 export default class ChallengesController {
@@ -17,6 +19,8 @@ export default class ChallengesController {
       challenges = response.data.challenges.map((challenge: Challenges) => ({
         numericId: challenge.numericId,
         description: challenge.description,
+        tags: challenge.tags,
+        points: challenge.points
       }));
     } catch (e) {
       return [];

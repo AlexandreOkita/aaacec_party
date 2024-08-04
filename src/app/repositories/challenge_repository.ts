@@ -10,6 +10,7 @@ export class ChallengeRepository {
       description: challenge.description,
       points: challenge.points,
       numericId: challenge.numericId,
+      tags: challenge.tags,
       partyId: challenge.partyId,
     });
   }
@@ -26,6 +27,7 @@ export class ChallengeRepository {
         data.description,
         data.points,
         data.numericId,
+        data.tags,
         data.partyId
       );
     });

@@ -1,4 +1,5 @@
 import { Input, Checkbox, Select, Option, Button } from "@material-tailwind/react";
+import { toast } from "react-toastify";
 
 enum Pages {
   GET_CHALLENGE = "get_challenge",
@@ -19,18 +20,21 @@ export default function GetChallengePage({
   setTags: (tags: string[]) => void;
   setDifficulty: (difficulty: number) => void;
   setGuestId: (guestId: number) => void;
-  pickRandomChallenge: () => void;
+  pickRandomChallenge: () => boolean;
   guestId: number;
   tags: string[];
   difficulty: number;
 }) {
 
   const generateChallenge = () => {
-    pickRandomChallenge();
-    setPage(Pages.SOLVE_CHALLENGE);
+    if (pickRandomChallenge()) {
+      setPage(Pages.SOLVE_CHALLENGE);
+    } else {
+      toast.error("Não foi possível encontrar um desafio com as características selecionadas");
+    }
   };
 
-  const toggleTag = (e) => {
+  const toggleTag = (e: any) => {
 
     let newTags: string[] = [];
 

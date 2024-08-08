@@ -46,7 +46,7 @@ export default function SolveChallengePage({
 
         <Typography variant="h3">ID {guestId}</Typography>
 
-        <Typography variant="paragraph">{randomChallenge.description} ({randomChallenge.points} pontos)</Typography>
+        <Typography variant="paragraph">{randomChallenge?.description} ({randomChallenge?.points} pontos)</Typography>
 
         <div className="flex flex-row gap-6">
           <Button onClick={acceptChallenge}>Aceitar</Button>

@@ -5,6 +5,7 @@ import { AAACECRole } from "../domain/aaacec_roles";
 import WithAuthentication from "../middleware/WithAuthentication";
 import { NavBar } from "../components/NavBar";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import GetChallengePage from "./GetChallengePage";
 import ChallengesController from "../controllers/ChallengesController";
 import SolveChallengePage from "./SolveChallengePage";
@@ -44,7 +45,7 @@ const Challenge = () => {
     setLoading(false);
   };
 
-  const pickRandomChallenge = () => {
+  const pickRandomChallenge = (): boolean => {
 
     const filteredChallenges: Challenge[] = challenges.filter((challenge) => {
 
@@ -67,8 +68,10 @@ const Challenge = () => {
     if (filteredChallenges) {
       const index = Math.floor(Math.random() * size);
       setRandomChallenge(filteredChallenges[index]);
+      return true;
+    } else {
+      return false;
     }
-
   };
 
   useEffect(() => {
@@ -111,6 +114,14 @@ const Challenge = () => {
             )}
           </>
         </div>
+        <ToastContainer 
+            position="top-right"
+            autoClose={7000}
+            theme="colored"
+            pauseOnHover={false}
+            draggable
+            closeOnClick
+          />
       </div>
     </>
   );

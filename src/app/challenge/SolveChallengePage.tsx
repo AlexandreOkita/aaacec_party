@@ -4,7 +4,13 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import ChallengesController from "../controllers/ChallengesController";
 import { ChallengesTable } from "../components/ChallengesTable";
-import { Pages, OngoingChallenge } from "./page";
+import { OngoingChallenge } from "./page";
+
+enum Pages {
+  GET_CHALLENGE = "get_challenge",
+  ACCEPT_CHALLENGE = "accept_challenge",
+  SOLVE_CHALLENGE = "solve_challenge"
+}
 
 export default function SolveChallengePage({
   setPage,

@@ -24,7 +24,7 @@ export interface OngoingChallenge {
   challenge: Challenge;
 }
 
-export enum Pages {
+enum Pages {
   GET_CHALLENGE = "get_challenge",
   ACCEPT_CHALLENGE = "accept_challenge",
   SOLVE_CHALLENGE = "solve_challenge"

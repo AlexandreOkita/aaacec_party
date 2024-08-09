@@ -10,6 +10,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiO
 	"price": 7,
 	"imageUrl": "https://mercantilnovaera.vtexassets.com/arquivos/ids/189367/Coquetel-Alcoolico-de-Limao-COROTE-Garrafinha-500ml-.jpg?v=637704413935700000",
 	"partyId": "corotebreak"
+
 }
 
 #######
@@ -18,3 +19,4 @@ GET /api/v1/store?partyId=corotebreak HTTP/1.1
 User-Agent: insomnia/9.3.2
 Host: localhost:3000
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNTg4MzYxNiwiZXhwIjoxNzE3MDkzMjE2fQ.Q69mN4crndK5jvR744sOz9jLntcLGxGlcWLBLsUZI70
+

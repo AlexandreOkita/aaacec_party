@@ -1,50 +1,38 @@
 "use client";
 
-import { Button, Spinner } from "@material-tailwind/react";
+import { Spinner } from "@material-tailwind/react";
 import { AAACECRole } from "../domain/aaacec_roles";
 import WithAuthentication from "../middleware/WithAuthentication";
 import { NavBar } from "../components/NavBar";
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import DefaultLoginsController from "../controllers/DefaultLoginsController";
-import LoginsPage from "./LoginsPage";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import GetChallengePage from "./GetChallengePage";
 import ChallengesController from "../controllers/ChallengesController";
-
-interface DefaultLogin {
-  imgUrl: string;
-  login: string;
-}
+import SolveChallengePage from "./SolveChallengePage";
 
 interface Challenge {
   numericId: number;
   description: string;
+  tags: string[];
+  points: number;
 }
 
 enum Pages {
-  LOGINS = "logins",
   GET_CHALLENGE = "get_challenge",
+  SOLVE_CHALLENGE = "solve_challenge"
 }
 
 const Challenge = () => {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [defaultLogins, setDefaultLogins] = useState<DefaultLogin[]>([]);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
-  const [currentPage, setCurrentPage] = useState<Pages>(Pages.LOGINS);
+  const [currentPage, setCurrentPage] = useState<Pages>(Pages.GET_CHALLENGE);
 
-  const getLogins = async () => {
-    const token = Cookies.get("token") || "";
-    setLoading(true);
-    const defaultLoginsResponse =
-      await DefaultLoginsController.getDefaultLogins(token);
-    if (!defaultLoginsResponse?.length) {
-      setError("Erro ao obter logins");
-    } else {
-      setDefaultLogins(defaultLoginsResponse);
-    }
-    setLoading(false);
-  };
+  const [randomChallenge, setRandomChallenge] = useState<Challenge>();
+  const [guestId, setGuestId] = useState<number>();
+  const [tags, setTags] = useState<string[]>(["alcoolico", "pegacao"])
+  const [difficulty, setDifficulty] = useState<number>()
 
   const getChallenges = async () => {
     setLoading(true);
@@ -53,12 +41,41 @@ const Challenge = () => {
       setError("Erro ao obter logins");
     } else {
       setChallenges(challengesResponse);
+      setRandomChallenge(challenges[0]);
     }
     setLoading(false);
   };
 
+  const pickRandomChallenge = (): boolean => {
+
+    const filteredChallenges: Challenge[] = challenges.filter((challenge) => {
+
+      // Eliminate all challenges that have tags not included in the guest's tag list
+
+      let forbiddenTags: boolean = false;
+
+      challenge.tags.map((tag) => {
+        if (!tags?.includes(tag)) {
+          forbiddenTags = true;
+        }
+      });
+
+      return challenge.points == difficulty && !forbiddenTags;
+
+    });
+
+    const size = filteredChallenges.length;
+
+    if (size > 0) {
+      const index = Math.floor(Math.random() * size);
+      setRandomChallenge(filteredChallenges[index]);
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   useEffect(() => {
-    getLogins();
     getChallenges();
   }, []);
 
@@ -76,20 +93,36 @@ const Challenge = () => {
       <div className="flex items-center h-screen flex-col justify-between mt-[-56px]">
         <div className="mt-[56px] w-full">
           <>
-            {currentPage === Pages.LOGINS && (
-              <LoginsPage
+            {currentPage === Pages.SOLVE_CHALLENGE && (
+              <SolveChallengePage
                 setPage={setCurrentPage}
-                defaultLogins={defaultLogins}
+                randomChallenge={randomChallenge}
+                pickRandomChallenge={pickRandomChallenge}
+                guestId={guestId}
               />
             )}
             {currentPage === Pages.GET_CHALLENGE && (
               <GetChallengePage
                 setPage={setCurrentPage}
-                challenges={challenges}
+                setTags={setTags}
+                setDifficulty={setDifficulty}
+                setGuestId={setGuestId}
+                pickRandomChallenge={pickRandomChallenge}
+                guestId={guestId}
+                tags={tags}
+                difficulty={difficulty}
               />
             )}
           </>
         </div>
+        <ToastContainer 
+            position="top-right"
+            autoClose={7000}
+            theme="colored"
+            pauseOnHover={false}
+            draggable
+            closeOnClick
+          />
       </div>
     </>
   );

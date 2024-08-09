@@ -2,7 +2,7 @@ POST /api/v1/store HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json
 Content-Length: 218
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNhaW8iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjI3MTI2MzgsImV4cCI6MTcyMzkyMjIzOH0.n4Rgo2cTNpvevmVpM5K2EUiaWS8n320V0VTtlt54MN8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNTg4MzYxNiwiZXhwIjoxNzE3MDkzMjE2fQ.Q69mN4crndK5jvR744sOz9jLntcLGxGlcWLBLsUZI70
 
 
 {
@@ -10,4 +10,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImNhaW8iLCJyb2xlIjoiY
 	"price": 7,
 	"imageUrl": "https://mercantilnovaera.vtexassets.com/arquivos/ids/189367/Coquetel-Alcoolico-de-Limao-COROTE-Garrafinha-500ml-.jpg?v=637704413935700000",
 	"partyId": "corotebreak"
+
 }
+
+#######
+
+GET /api/v1/store?partyId=corotebreak HTTP/1.1
+User-Agent: insomnia/9.3.2
+Host: localhost:3000
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im9raXRhMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNTg4MzYxNiwiZXhwIjoxNzE3MDkzMjE2fQ.Q69mN4crndK5jvR744sOz9jLntcLGxGlcWLBLsUZI70
+

@@ -75,7 +75,7 @@ function StorePage({storeItems}: {storeItems: StoreItem[]}) {
         </div>
         <DialogBody>
           <div className="grid gap-6">
-
+            
           {/*
             Uncomment this to allow for name-number pattern of id
             <Input
@@ -84,6 +84,7 @@ function StorePage({storeItems}: {storeItems: StoreItem[]}) {
               onChange={(e) => setSelectedName(e.target.value)}
               crossOrigin={undefined}
             /> */}
+
             <Input
               type="number"
               label="ID numérico"

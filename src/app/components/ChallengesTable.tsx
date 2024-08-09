@@ -5,6 +5,7 @@ const TABLE_HEAD = ["Número", "Desafio"];
 interface TableRow {
   numericId: number;
   description: string;
+  onclick?: () => void;
 }
 interface TableProps {
   tableRows: TableRow[];
@@ -41,8 +42,8 @@ export function ChallengesTable(props: TableProps) {
           </tr>
         </thead>
         <tbody>
-          {props.tableRows.map(({ numericId, description }, index) => (
-            <tr key={numericId} className="even:bg-blue-gray-50/50">
+          {props.tableRows.map(({ numericId, description, onclick = undefined }, index) => (
+            <tr key={numericId} className="even:bg-blue-gray-50/50 cursor-pointer" onClick={onclick}>
               <td className="p-4">
                 <Typography
                   variant="small"

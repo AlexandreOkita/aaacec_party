@@ -9,17 +9,24 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import GetChallengePage from "./GetChallengePage";
 import ChallengesController from "../controllers/ChallengesController";
+import AcceptChallengePage from "./AcceptChallengePage";
 import SolveChallengePage from "./SolveChallengePage";
 
-interface Challenge {
+export interface Challenge {
   numericId: number;
   description: string;
   tags: string[];
   points: number;
 }
 
-enum Pages {
+export interface OngoingChallenge {
+  guestId: number;
+  challenge: Challenge;
+}
+
+export enum Pages {
   GET_CHALLENGE = "get_challenge",
+  ACCEPT_CHALLENGE = "accept_challenge",
   SOLVE_CHALLENGE = "solve_challenge"
 }
 
@@ -28,6 +35,7 @@ const Challenge = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [currentPage, setCurrentPage] = useState<Pages>(Pages.GET_CHALLENGE);
+  const [ongoingChallenges, setOngoingChallenges] = useState<OngoingChallenge[]>([]);
 
   const [randomChallenge, setRandomChallenge] = useState<Challenge>();
   const [guestId, setGuestId] = useState<number>();
@@ -44,6 +52,33 @@ const Challenge = () => {
       setRandomChallenge(challenges[0]);
     }
     setLoading(false);
+  };
+
+  const addOngoingChallenge = async (challenge: Challenge) => {
+    const oc = {
+      guestId: guestId!,
+      challenge: challenge
+    } as OngoingChallenge;
+    
+    const challenges = [...ongoingChallenges, oc];
+    
+    setOngoingChallenges(challenges);
+    localStorage.setItem("ongoingChallenges", JSON.stringify(challenges));
+  };
+
+  const getOngoingChallenges = async () => {
+    let challenges: OngoingChallenge[] = [];
+
+    if (localStorage.getItem("ongoingChallenges")) {
+      challenges = JSON.parse(localStorage.getItem("ongoingChallenges")!) as OngoingChallenge[];
+      setOngoingChallenges(challenges);
+    }
+  };
+
+  const removeOngoingChallenge = async (challenge: OngoingChallenge) => {
+    const challenges = ongoingChallenges.filter((oc) => oc !== challenge);
+    setOngoingChallenges(challenges);
+    localStorage.setItem("ongoingChallenges", JSON.stringify(challenges));
   };
 
   const pickRandomChallenge = (): boolean => {
@@ -77,6 +112,7 @@ const Challenge = () => {
 
   useEffect(() => {
     getChallenges();
+    getOngoingChallenges();
   }, []);
 
   if (loading) {
@@ -93,12 +129,20 @@ const Challenge = () => {
       <div className="flex items-center h-screen flex-col justify-between mt-[-56px]">
         <div className="mt-[56px] w-full">
           <>
-            {currentPage === Pages.SOLVE_CHALLENGE && (
-              <SolveChallengePage
+            {currentPage === Pages.ACCEPT_CHALLENGE && (
+              <AcceptChallengePage
                 setPage={setCurrentPage}
                 randomChallenge={randomChallenge!}
                 pickRandomChallenge={pickRandomChallenge}
+                addOngoingChallenge={addOngoingChallenge}
                 guestId={guestId!}
+              />
+            )}
+            {currentPage === Pages.SOLVE_CHALLENGE && (
+              <SolveChallengePage
+                setPage={setCurrentPage}
+                ongoingChallenges={ongoingChallenges}
+                removeOngoingChallenge={removeOngoingChallenge}
               />
             )}
             {currentPage === Pages.GET_CHALLENGE && (
@@ -108,6 +152,7 @@ const Challenge = () => {
                 setDifficulty={setDifficulty}
                 setGuestId={setGuestId}
                 pickRandomChallenge={pickRandomChallenge}
+                ongoingChallenges={ongoingChallenges}
                 guestId={guestId!}
                 tags={tags}
                 difficulty={difficulty!}

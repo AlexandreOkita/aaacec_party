@@ -1,71 +1,125 @@
-import {
-  Button,
-  Typography,
-} from "@material-tailwind/react";
-import Cookies from "js-cookie";
-
+import { useState } from "react";
+import { Typography, Dialog, DialogFooter, DialogHeader, Button } from "@material-tailwind/react";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 import ChallengesController from "../controllers/ChallengesController";
-
-
-interface Challenge {
-  numericId: number;
-  description: string;
-  tags: string[];
-  points: number;
-}
-
-enum Pages {
-  GET_CHALLENGE = "get_challenge",
-  SOLVE_CHALLENGE = "solve_challenge"
-}
+import { ChallengesTable } from "../components/ChallengesTable";
+import { Pages, OngoingChallenge } from "./page";
 
 export default function SolveChallengePage({
   setPage,
-  randomChallenge,
-  pickRandomChallenge,
-  guestId
+  ongoingChallenges,
+  removeOngoingChallenge
 }: {
   setPage: (page: Pages) => void;
-  randomChallenge: Challenge;
-  pickRandomChallenge: () => void;
-  guestId: number;
+  ongoingChallenges: OngoingChallenge[];
+  removeOngoingChallenge: (challenge: OngoingChallenge) => void;
 }) {
 
-  const acceptChallenge = async () => {
-    const token = Cookies.get("token") || "";
+  const [guestId, setGuestId] = useState<number>();
+  const [currentChallenge, setCurrentChallenge] = useState<OngoingChallenge>();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
 
-    const response = await ChallengesController.solveChallenge(token, guestId, randomChallenge.points);
-    if (response.status === 200) {
-      setPage(Pages.GET_CHALLENGE);
-      toast.success(`Pontuação adicionada! ${guestId} agora possui ${response.data.currentScore} pontos.`);
-    } else {
-      setPage(Pages.GET_CHALLENGE);
-      toast.error("Erro ao adicionar pontuação.");
-    }
-  }
+  const renderDialog = () => {
+    const score = async () => {
+      const token = Cookies.get("token") || "";
 
-  const refuseChallenge = () => {
-    setPage(Pages.GET_CHALLENGE);
-  }
+      try {
+        const response = await ChallengesController.solveChallenge(token, guestId!, currentChallenge!.challenge.points);
+        setPage(Pages.GET_CHALLENGE);
+        toast.success(`Pontuação adicionada! ${guestId} agora possui ${response.data.currentScore} pontos.`);
+        removeOngoingChallenge(currentChallenge!);
+      } catch (error: any) {
+        if (error.response.data.message == "Error when trying to handle document: guests. GuestId not found") {
+          toast.error("Não foi possível encontrar usuário com esse ID.");
+          removeOngoingChallenge(currentChallenge!);
+        } else {
+          toast.error("Erro desconhecido ao adicionar pontuação.");
+        }
+      }
+    };
+
+    return (
+      <Dialog open={open} size="xs" handler={handleOpen}>
+        <div className="flex items-center justify-between">
+          <DialogHeader className="flex flex-col items-start">
+            {" "}
+            <Typography className="mb-1" variant="h4">
+              Confirmar?
+            </Typography>
+          </DialogHeader>
+          <Typography variant="h6">{currentChallenge?.guestId}: {currentChallenge?.challenge.points} ponto(s)</Typography>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="mr-3 h-5 w-5"
+            onClick={handleOpen}
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+        <DialogFooter className="space-x-2">
+          <Button
+            variant="gradient"
+            color="deep-orange"
+            onClick={() => {
+              removeOngoingChallenge(currentChallenge!);
+              handleOpen();
+            }}
+          >
+            Deletar
+          </Button>
+          <Button
+            variant="gradient"
+            color="orange"
+            onClick={() => {
+              handleOpen();
+            }}
+          >
+            Não
+          </Button>
+          <Button
+            variant="gradient"
+            color="light-green"
+            onClick={() => {
+              score();
+              handleOpen();
+            }}
+          >
+            Sim
+          </Button>
+          
+        </DialogFooter>
+      </Dialog>
+    );
+  };
 
   return (
-    <main className="flex items-center justify-center h-full">
+    <>
+      <main className="items-center justify-center h-fit">
+      <ChallengesTable
+          tableRows={ongoingChallenges
+            .map((challenge: OngoingChallenge) => ({
+              numericId: challenge.guestId,
+              description: challenge.challenge.description,
+              onclick: () => {
+                setCurrentChallenge(challenge);
+                setGuestId(challenge.guestId);
+                handleOpen();
+              }
+            }))  
+          }
+        />
       
-      <div className="flex flex-col gap-4 px-3 pt-7">
-
-        <Typography variant="h3">ID {guestId}</Typography>
-
-        <Typography variant="paragraph">{randomChallenge?.description} ({randomChallenge?.points} pontos)</Typography>
-
-        <div className="flex flex-row gap-6">
-          <Button onClick={acceptChallenge}>Aceitar</Button>
-          <Button onClick={pickRandomChallenge}>Outro Desafio</Button>
-          <Button onClick={refuseChallenge}>Recusar</Button>
-        </div>
-
-      </div>
-
-    </main>
-  );
+      {renderDialog()}
+      </main>
+      <Button className="mt-4 ms-2" onClick={() => setPage(Pages.GET_CHALLENGE)}>Voltar</Button>  
+    </>
+  )
 }

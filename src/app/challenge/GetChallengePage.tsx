@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 
 enum Pages {
   GET_CHALLENGE = "get_challenge",
+  ACCEPT_CHALLENGE = "accept_challenge",
   SOLVE_CHALLENGE = "solve_challenge"
 }
 
@@ -12,6 +13,7 @@ export default function GetChallengePage({
   setDifficulty,
   setGuestId,
   pickRandomChallenge,
+  ongoingChallenges,
   guestId,
   tags,
   difficulty
@@ -21,6 +23,7 @@ export default function GetChallengePage({
   setDifficulty: (difficulty: number) => void;
   setGuestId: (guestId: number) => void;
   pickRandomChallenge: () => boolean;
+  ongoingChallenges: any[];
   guestId: number;
   tags: string[];
   difficulty: number;
@@ -28,7 +31,7 @@ export default function GetChallengePage({
 
   const generateChallenge = () => {
     if (pickRandomChallenge()) {
-      setPage(Pages.SOLVE_CHALLENGE);
+      setPage(Pages.ACCEPT_CHALLENGE);
     } else {
       toast.error("Não foi possível encontrar um desafio com as características selecionadas");
     }
@@ -88,7 +91,7 @@ export default function GetChallengePage({
         </div>
 
         {!isNaN(guestId) && !isNaN(difficulty) ? <Button onClick={generateChallenge}>GERAR DESAFIO</Button> : <Button disabled>GERAR DESAFIO</Button>}
-
+        {ongoingChallenges.length > 0 ? <Button onClick={() => setPage(Pages.SOLVE_CHALLENGE)}>COMPLETAR DESAFIO</Button> : <Button disabled>COMPLETAR DESAFIO</Button>}
     	</div>
 
     </main>

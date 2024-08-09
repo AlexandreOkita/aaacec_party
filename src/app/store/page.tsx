@@ -115,7 +115,7 @@ function StorePage({storeItems}: {storeItems: StoreItem[]}) {
 
   return (
     <div className="flex justify-between flex-col">
-      <div className="grid grid-cols-6 gap-1 sm:grid-cols-3 md:grid-cols-3 p-3 mb-14">
+      <div className="grid grid-cols-2 gap-1 lg:grid-cols-6 md:grid-cols-3 p-3 mb-14">
         {storeItems.map(({ id, imageUrl, name, price }, index) => (
           <div
             key={index}

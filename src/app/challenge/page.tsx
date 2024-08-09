@@ -5,6 +5,7 @@ import { AAACECRole } from "../domain/aaacec_roles";
 import WithAuthentication from "../middleware/WithAuthentication";
 import { NavBar } from "../components/NavBar";
 import { useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import GetChallengePage from "./GetChallengePage";
 import ChallengesController from "../controllers/ChallengesController";
@@ -65,7 +66,7 @@ const Challenge = () => {
 
     const size = filteredChallenges.length;
 
-    if (filteredChallenges) {
+    if (size > 0) {
       const index = Math.floor(Math.random() * size);
       setRandomChallenge(filteredChallenges[index]);
       return true;

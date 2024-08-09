@@ -25,7 +25,7 @@ class ScoreController {
       );
       await ChallengeRepository.addChallengeHistory(new ChallengeHistory(dto.guest, payload.username));
       return Response.json(
-        { message: `Score added! Current score: ${currentScore}` },
+        { message: `Score added! Current score: ${currentScore}`, currentScore: currentScore },
         { status: 200 }
       );
     } catch (error) {

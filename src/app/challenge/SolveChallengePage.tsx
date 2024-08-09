@@ -2,6 +2,11 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import Cookies from "js-cookie";
+
+import { toast } from "react-toastify";
+import ChallengesController from "../controllers/ChallengesController";
+
 
 interface Challenge {
   numericId: number;
@@ -27,16 +32,21 @@ export default function SolveChallengePage({
   guestId: number;
 }) {
 
-  const acceptChallenge = () => {
-    
-    setPage(Pages.GET_CHALLENGE);
+  const acceptChallenge = async () => {
+    const token = Cookies.get("token") || "";
 
+    const response = await ChallengesController.solveChallenge(token, guestId, randomChallenge.points);
+    if (response.status === 200) {
+      setPage(Pages.GET_CHALLENGE);
+      toast.success(`Pontuação adicionada! ${guestId} agora possui ${response.data.currentScore} pontos.`);
+    } else {
+      setPage(Pages.GET_CHALLENGE);
+      toast.error("Erro ao adicionar pontuação.");
+    }
   }
 
   const refuseChallenge = () => {
-
     setPage(Pages.GET_CHALLENGE);
-
   }
 
   return (

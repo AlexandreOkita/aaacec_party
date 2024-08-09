@@ -33,7 +33,7 @@ function StorePage({storeItems}: {storeItems: StoreItem[]}) {
   };
 
   const [selectedItem, setSelectedItem] = useState<StoreItem>();
-  const [selectedName, setSelectedName] = useState<string>();
+  const [selectedName, setSelectedName] = useState<string>("corotebreak");
   const [selectedNumber, setSelectedNumber] = useState<number>();
 
   const buyItem = async () => {
@@ -75,12 +75,15 @@ function StorePage({storeItems}: {storeItems: StoreItem[]}) {
         </div>
         <DialogBody>
           <div className="grid gap-6">
-          <Input
+
+          {/*
+            Uncomment this to allow for name-number pattern of id
+            <Input
               type="string"
-              label="Login"
+              label="ID Nome"
               onChange={(e) => setSelectedName(e.target.value)}
               crossOrigin={undefined}
-            />
+            /> */}
             <Input
               type="number"
               label="ID numérico"

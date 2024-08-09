@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import axios, { AxiosResponse } from "axios";
 
 interface Challenges {
@@ -27,5 +26,23 @@ export default class ChallengesController {
     }
 
     return challenges;
+  }
+
+  static async solveChallenge(token: string, guestId: number, score: number, guestName: string = "corotebreak"): Promise<AxiosResponse> {
+    const response: AxiosResponse = await axios.post(
+      "/api/v1/challenge/score",
+      {
+        name: guestName,
+        number: guestId,
+        score,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      }
+    );
+
+    return response;
   }
 }

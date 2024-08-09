@@ -64,8 +64,8 @@ export default function GetChallengePage({
         </div>
 
         <div>
-          <Checkbox value="alcoolico" label="Incluir álcool" onChange={toggleTag} checked={tags.includes("alcoolico")} />
-          <Checkbox value="pegacao" label="Incluir pegação" onChange={toggleTag} checked={tags.includes("pegacao")} />
+          <Checkbox value="alcoolico" label="Incluir álcool" onChange={toggleTag} checked={tags.includes("alcoolico")} crossOrigin={undefined}/>
+          <Checkbox value="pegacao" label="Incluir pegação" onChange={toggleTag} checked={tags.includes("pegacao")} crossOrigin={undefined}/>
         </div>
         
         <div>

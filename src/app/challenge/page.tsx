@@ -96,9 +96,9 @@ const Challenge = () => {
             {currentPage === Pages.SOLVE_CHALLENGE && (
               <SolveChallengePage
                 setPage={setCurrentPage}
-                randomChallenge={randomChallenge}
+                randomChallenge={randomChallenge!}
                 pickRandomChallenge={pickRandomChallenge}
-                guestId={guestId}
+                guestId={guestId!}
               />
             )}
             {currentPage === Pages.GET_CHALLENGE && (
@@ -108,9 +108,9 @@ const Challenge = () => {
                 setDifficulty={setDifficulty}
                 setGuestId={setGuestId}
                 pickRandomChallenge={pickRandomChallenge}
-                guestId={guestId}
+                guestId={guestId!}
                 tags={tags}
-                difficulty={difficulty}
+                difficulty={difficulty!}
               />
             )}
           </>

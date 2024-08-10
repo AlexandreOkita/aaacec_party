@@ -34,9 +34,11 @@ export class ChallengeRepository {
   }
 
   static async scoreGuest(guestId: string, score: number): Promise<number> {
-    const guest = await firestore.doc(`guest/list/guests/${guestId}`).get();
+    let guest = await firestore.doc(`guest/list/guests/${guestId}`).get();
     if (!guest.exists) {
-      throw new DataError("GuestId not found", "guests");
+      const name = guestId.split("-")[0];
+      await firestore.doc(`guest/list/guests/${guestId}`).set({ name });
+      guest = await firestore.doc(`guest/list/guests/${guestId}`).get();
     }
     const data = guest.data()!;
 

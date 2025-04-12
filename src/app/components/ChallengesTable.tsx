@@ -1,8 +1,9 @@
 import { Card, Typography } from "@material-tailwind/react";
 
-const TABLE_HEAD = ["Número", "Desafio"];
+const TABLE_HEAD = ["Cor", "Número", "Desafio"];
 
 interface TableRow {
+  color: string;
   numericId: number;
   description: string;
   onclick?: () => void;
@@ -42,8 +43,20 @@ export function ChallengesTable(props: TableProps) {
           </tr>
         </thead>
         <tbody>
-          {props.tableRows.map(({ numericId, description, onclick = undefined }, index) => (
+          {props.tableRows.map(({ color, numericId, description, onclick = undefined }, index) => (
             <tr key={numericId} className="even:bg-blue-gray-50/50 cursor-pointer" onClick={onclick}>
+              <td className="p-4">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal"
+                  placeholder={undefined}
+                  onPointerEnterCapture={undefined}
+                  onPointerLeaveCapture={undefined}
+                >
+                  {color}
+                </Typography>
+              </td>
               <td className="p-4">
                 <Typography
                   variant="small"

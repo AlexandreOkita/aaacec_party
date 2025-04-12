@@ -13,7 +13,7 @@ export default class StorageController {
 
     try {
       const response: AxiosResponse = await axios.get(
-        "/api/v1/store?partyId=corotebreak",
+        "/api/v1/store?partyId=025corotebreak",
         {
             headers: {
               Authorization: "Bearer " + token,

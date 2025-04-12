@@ -23,6 +23,7 @@ export default function SolveChallengePage({
 }) {
 
   const [guestId, setGuestId] = useState<number>();
+  const [guestName, setGuestName] = useState<string>();
   const [currentChallenge, setCurrentChallenge] = useState<OngoingChallenge>();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
@@ -32,9 +33,9 @@ export default function SolveChallengePage({
       const token = Cookies.get("token") || "";
 
       try {
-        const response = await ChallengesController.solveChallenge(token, guestId!, currentChallenge!.challenge.points);
+        const response = await ChallengesController.solveChallenge(token, guestId!, currentChallenge!.challenge.points, guestName!);
         setPage(Pages.GET_CHALLENGE);
-        toast.success(`Pontuação adicionada! ${guestId} agora possui ${response.data.currentScore} pontos.`);
+        toast.success(`Pontuação adicionada! ${guestName?.split('-')[1]}-${guestId} agora possui ${response.data.currentScore} pontos.`);
         removeOngoingChallenge(currentChallenge!);
       } catch (error: any) {
         if (error.response.data.message == "Error when trying to handle document: guests. GuestId not found") {
@@ -112,11 +113,13 @@ export default function SolveChallengePage({
       <ChallengesTable
           tableRows={ongoingChallenges
             .map((challenge: OngoingChallenge) => ({
+              color: challenge.guestName.split("-")[1],
               numericId: challenge.guestId,
               description: challenge.challenge.description,
               onclick: () => {
                 setCurrentChallenge(challenge);
                 setGuestId(challenge.guestId);
+                setGuestName(challenge.guestName);
                 handleOpen();
               }
             }))  

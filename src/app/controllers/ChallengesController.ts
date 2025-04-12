@@ -13,7 +13,7 @@ export default class ChallengesController {
 
     try {
       const response: AxiosResponse = await axios.get(
-        "/api/v1/challenge?partyId=corotebreak"
+        "/api/v1/challenge?partyId=025corotebreak"
       );
       challenges = response.data.challenges.map((challenge: Challenges) => ({
         numericId: challenge.numericId,
@@ -28,7 +28,7 @@ export default class ChallengesController {
     return challenges;
   }
 
-  static async solveChallenge(token: string, guestId: number, score: number, guestName: string = "corotebreak"): Promise<AxiosResponse> {
+  static async solveChallenge(token: string, guestId: number, score: number, guestName: string = "025corotebreak"): Promise<AxiosResponse> {
     const response: AxiosResponse = await axios.post(
       "/api/v1/challenge/score",
       {

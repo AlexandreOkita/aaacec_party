@@ -20,6 +20,7 @@ export interface Challenge {
 }
 
 export interface OngoingChallenge {
+  guestName: string;
   guestId: number;
   challenge: Challenge;
 }
@@ -39,8 +40,9 @@ const Challenge = () => {
 
   const [randomChallenge, setRandomChallenge] = useState<Challenge>();
   const [guestId, setGuestId] = useState<number>();
+  const [guestName, setGuestName] = useState<string>();
   const [tags, setTags] = useState<string[]>(["alcoolico", "pegacao"])
-  const [difficulty, setDifficulty] = useState<number>()
+  const [difficulty, setDifficulty] = useState<number>(1)
 
   const getChallenges = async () => {
     setLoading(true);
@@ -56,6 +58,7 @@ const Challenge = () => {
 
   const addOngoingChallenge = async (challenge: Challenge) => {
     const oc = {
+      guestName: guestName!,
       guestId: guestId!,
       challenge: challenge
     } as OngoingChallenge;
@@ -136,6 +139,7 @@ const Challenge = () => {
                 pickRandomChallenge={pickRandomChallenge}
                 addOngoingChallenge={addOngoingChallenge}
                 guestId={guestId!}
+                guestName={guestName!}
               />
             )}
             {currentPage === Pages.SOLVE_CHALLENGE && (
@@ -151,9 +155,11 @@ const Challenge = () => {
                 setTags={setTags}
                 setDifficulty={setDifficulty}
                 setGuestId={setGuestId}
+                setGuestName={setGuestName}
                 pickRandomChallenge={pickRandomChallenge}
                 ongoingChallenges={ongoingChallenges}
                 guestId={guestId!}
+                guestName={guestName!}
                 tags={tags}
                 difficulty={difficulty!}
               />

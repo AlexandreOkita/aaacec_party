@@ -7,6 +7,8 @@ import {
   DialogFooter,
   DialogHeader,
   Input,
+  Select,
+  Option,
   Typography,
   Spinner,
 } from "@material-tailwind/react";
@@ -33,7 +35,7 @@ function StorePage({storeItems}: {storeItems: StoreItem[]}) {
   };
 
   const [selectedItem, setSelectedItem] = useState<StoreItem>();
-  const [selectedName, setSelectedName] = useState<string>("corotebreak");
+  const [selectedName, setSelectedName] = useState<string>();
   const [selectedNumber, setSelectedNumber] = useState<number>();
 
   const buyItem = async () => {
@@ -76,14 +78,16 @@ function StorePage({storeItems}: {storeItems: StoreItem[]}) {
         <DialogBody>
           <div className="grid gap-6">
             
-          {/*
-            Uncomment this to allow for name-number pattern of id
-            <Input
-              type="string"
-              label="ID Nome"
-              onChange={(e) => setSelectedName(e.target.value)}
-              crossOrigin={undefined}
-            /> */}
+          
+            <Select
+              label="Cor"
+              onChange={(e) => setSelectedName(e)}
+            >
+              <Option value="025corotebreak-vermelho">Vemelho</Option>
+              <Option value="025corotebreak-verde">Verde</Option>
+              <Option value="025corotebreak-laranja">Laranja</Option>
+              <Option value="025corotebreak-rosa">Rosa</Option>
+            </Select>
 
             <Input
               type="number"

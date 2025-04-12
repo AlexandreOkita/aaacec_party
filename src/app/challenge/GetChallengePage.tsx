@@ -12,9 +12,11 @@ export default function GetChallengePage({
   setTags,
   setDifficulty,
   setGuestId,
+  setGuestName,
   pickRandomChallenge,
   ongoingChallenges,
   guestId,
+  guestName,
   tags,
   difficulty
 }: {
@@ -22,9 +24,11 @@ export default function GetChallengePage({
   setTags: (tags: string[]) => void;
   setDifficulty: (difficulty: number) => void;
   setGuestId: (guestId: number) => void;
+  setGuestName: (guestName: string) => void;
   pickRandomChallenge: () => boolean;
   ongoingChallenges: any[];
   guestId: number;
+  guestName: string;
   tags: string[];
   difficulty: number;
 }) {
@@ -61,8 +65,17 @@ export default function GetChallengePage({
 
     	<div className="flex flex-col gap-4 px-3">
 
-        <div>
-          {/* <Input variant="outlined" placeholder="Nome" label="ID" type="number" value={guestId} onChange={(e) => setGuestId(parseInt(e.target.value))} crossOrigin={undefined}/> */}
+        <div className="flex flex-col gap-4">
+          <Select
+            label="Cor"
+            onChange={(v: string | undefined) => setGuestName(v!)}
+            value={guestName ? guestName : undefined}
+          >
+              <Option value="025corotebreak-vermelho">Vemelho</Option>
+              <Option value="025corotebreak-verde">Verde</Option>
+              <Option value="025corotebreak-laranja">Laranja</Option>
+              <Option value="025corotebreak-rosa">Rosa</Option>
+          </Select>
           <Input variant="outlined" placeholder="ID" label="ID" type="number" value={guestId} onChange={(e) => setGuestId(parseInt(e.target.value))} crossOrigin={undefined}/>
         </div>
 
@@ -72,25 +85,9 @@ export default function GetChallengePage({
         </div>
         
         <div>
-
-          {!isNaN(difficulty) && (
-            <Select label="Dificuldade" value={difficulty.toString()} onChange={(value) => setDifficulty(parseInt(value || ""))}>
-              <Option value="1">Fácil</Option>
-              <Option value="2">Médio</Option>
-              <Option value="3">Difícil</Option>
-            </Select>
-          )}
-           {isNaN(difficulty) && (
-            <Select label="Dificuldade" onChange={(value) => setDifficulty(parseInt(value || ""))}>
-              <Option value="1">Fácil</Option>
-              <Option value="2">Médio</Option>
-              <Option value="3">Difícil</Option>
-            </Select>
-          )}
-
         </div>
 
-        {!isNaN(guestId) && !isNaN(difficulty) ? <Button onClick={generateChallenge}>GERAR DESAFIO</Button> : <Button disabled>GERAR DESAFIO</Button>}
+        {!isNaN(guestId) && !isNaN(difficulty) && guestName ? <Button onClick={generateChallenge}>GERAR DESAFIO</Button> : <Button disabled>GERAR DESAFIO</Button>}
         {ongoingChallenges.length > 0 ? <Button onClick={() => setPage(Pages.SOLVE_CHALLENGE)}>COMPLETAR DESAFIO</Button> : <Button disabled>COMPLETAR DESAFIO</Button>}
     	</div>
 

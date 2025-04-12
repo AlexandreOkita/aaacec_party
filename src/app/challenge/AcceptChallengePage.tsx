@@ -21,12 +21,14 @@ export default function AccepctChallengePage({
   randomChallenge,
   pickRandomChallenge,
   addOngoingChallenge,
+  guestName,
   guestId
 }: {
   setPage: (page: Pages) => void;
   randomChallenge: Challenge;
   pickRandomChallenge: () => void;
   addOngoingChallenge: (challenge: Challenge) => void;
+  guestName: String;
   guestId: number;
 }) {
 
@@ -54,7 +56,7 @@ export default function AccepctChallengePage({
       
       <div className="flex flex-col gap-4 px-3 pt-7">
 
-        <Typography variant="h3">ID {guestId}</Typography>
+        <Typography variant="h3">{guestName.split("-")[1]} {guestId}</Typography>
 
         <Typography variant="paragraph">{randomChallenge?.description} ({randomChallenge?.points} pontos)</Typography>
 

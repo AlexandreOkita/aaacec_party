@@ -70,6 +70,7 @@ export default function DesafiosPage() {
         <ChallengesTable
           tableRows={challenges
             .map((challenge: Challenge) => ({
+              color: "",
               numericId: challenge.numericId,
               description: challenge.description,
             }))
